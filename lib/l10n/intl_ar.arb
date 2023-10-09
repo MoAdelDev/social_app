@@ -1,0 +1,16 @@
+{
+  "login" : "تسجيل الدخول",
+  "emailLabel" : "البريد الإلكتروني",
+  "passwordLabel" : "كلمة المرور",
+  "forgotPasswordQuestion" : "هل نسيت كلمة المرور ؟",
+  "registerQuestion" : "أليس لديك حساب ؟",
+  "register" : "تسجيل",
+  "nameLabel" : "الإسم",
+  "phoneLabel" : "رقم الهاتف",
+  "emailInputError" : "أدخل البريد الإلكتروني",
+  "passwordInputError" : "أدخل كلمة المرور",
+  "nameInputError" : "أدخل الإسم",
+  "phoneInputError" : "أدخل رقم الهاتف",
+  "signUp" : "تسجيل"
+
+}

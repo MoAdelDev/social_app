@@ -1,0 +1,15 @@
+{
+  "login" : "Login",
+  "emailLabel" : "Email",
+  "passwordLabel" : "Password",
+  "forgotPasswordQuestion" : "Forgot Password ?",
+  "registerQuestion" : "Aren't you have an account?",
+  "register" : "Register",
+  "nameLabel" : "Name",
+  "phoneLabel" : "Phone",
+  "emailInputError" : "Enter Email Address",
+  "passwordInputError" : "Enter Password",
+  "nameInputError" : "Enter Name",
+  "phoneInputError" : "Enter Phone",
+  "signUp" : "Sign up"
+}
