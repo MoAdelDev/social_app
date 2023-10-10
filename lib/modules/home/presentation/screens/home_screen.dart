@@ -41,7 +41,7 @@ class _HomeScreenState extends State<HomeScreen> {
         height: 60.0,
         notchMargin: 10.0,
         shape: const CircularNotchedRectangle(),
-        color:  const Color(0xff5790DF).withOpacity(0.8),
+        color:  const Color(0xff5790DF).withOpacity(0.9),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           mainAxisSize: MainAxisSize.max,
