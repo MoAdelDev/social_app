@@ -8,6 +8,11 @@ class AppThemes {
         splashColor: AppColorLight.primary,
         appBarTheme: const AppBarTheme(
           centerTitle: true,
+          titleTextStyle: TextStyle(
+            fontSize: 25.0,
+            fontFamily: AppFonts.semiBold,
+            color: AppColorLight.onBackground,
+          ),
           backgroundColor: AppColorLight.background,
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle(
@@ -82,6 +87,11 @@ class AppThemes {
         appBarTheme: const AppBarTheme(
             centerTitle: true,
             backgroundColor: AppColorDark.background,
+            titleTextStyle: TextStyle(
+              fontSize: 25.0,
+              fontFamily: AppFonts.semiBold,
+              color: AppColorDark.onBackground,
+            ),
             elevation: 0.0,
             systemOverlayStyle:
                 SystemUiOverlayStyle(statusBarColor: AppColorDark.primary)),
