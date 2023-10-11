@@ -5,7 +5,6 @@ import 'package:social_app/core/style/fonts.dart';
 
 class AppThemes {
   static ThemeData lightTheme() => ThemeData(
-        splashColor: AppColorLight.primary,
         appBarTheme: const AppBarTheme(
           centerTitle: true,
           titleTextStyle: TextStyle(
@@ -83,7 +82,6 @@ class AppThemes {
       );
 
   static ThemeData darkTheme() => ThemeData(
-        splashColor: AppColorDark.primary,
         appBarTheme: const AppBarTheme(
             centerTitle: true,
             backgroundColor: AppColorDark.background,

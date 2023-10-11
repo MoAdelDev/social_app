@@ -13,12 +13,12 @@ class LoginState extends Equatable {
     this.loginError = '',
   });
 
-  LoginState copyWith(
+  LoginState copyWith({
     bool? isPasswordHidden,
     RequestState? loginState,
     String? loginError,
     User? user,
-  ) =>
+  }) =>
       LoginState(
         isPasswordHidden: isPasswordHidden ?? this.isPasswordHidden,
         loginState: loginState ?? this.loginState,

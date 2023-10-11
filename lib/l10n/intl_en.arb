@@ -11,5 +11,8 @@
   "passwordInputError" : "Enter Password",
   "nameInputError" : "Enter Name",
   "phoneInputError" : "Enter Phone",
-  "signUp" : "Sign up"
+  "signUp" : "Sign up",
+  "explore" : "Explore",
+  "postSuccessMsg": "The post has been published successfully",
+  "loginSuccessMsg" : "You have been logged in successfully"
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:either_dart/either.dart';
 import 'package:social_app/core/error/failure.dart';
 import 'package:social_app/core/error/server_exception.dart';
@@ -28,6 +29,29 @@ class AuthRepository extends BaseAuthRepository {
     try {
       final result =
           await baseAuthRemoteDataSource.addUser(userModel: userModel);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, String>> login(
+      {required String email, required String password}) async {
+    try {
+      final result = await baseAuthRemoteDataSource.login(
+          email: email, password: password);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
+  Either<Failure, Stream<DocumentSnapshot<Map<String, dynamic>>>> getUser(
+      {required String uid}) {
+    try {
+      final result = baseAuthRemoteDataSource.getUser(uid: uid);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.errorMessageModel.message));

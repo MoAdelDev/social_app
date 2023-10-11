@@ -25,9 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailInputError":
             MessageLookupByLibrary.simpleMessage("أدخل البريد الإلكتروني"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),
+        "explore": MessageLookupByLibrary.simpleMessage("إستكشف"),
         "forgotPasswordQuestion":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور ؟"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
+        "loginSuccessMsg":
+            MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),
         "nameInputError": MessageLookupByLibrary.simpleMessage("أدخل الإسم"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("الإسم"),
         "passwordInputError":
@@ -36,6 +39,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "phoneInputError":
             MessageLookupByLibrary.simpleMessage("أدخل رقم الهاتف"),
         "phoneLabel": MessageLookupByLibrary.simpleMessage("رقم الهاتف"),
+        "postSuccessMsg":
+            MessageLookupByLibrary.simpleMessage("تم نشر المنشور بنجاح"),
         "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "registerQuestion":
             MessageLookupByLibrary.simpleMessage("أليس لديك حساب ؟"),

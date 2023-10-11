@@ -1,8 +1,8 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 import 'package:social_app/core/components/default_animation.dart';
+import 'package:social_app/core/components/default_app_bar_icon.dart';
 import 'package:social_app/core/components/default_progress_indicator.dart';
 import 'package:social_app/core/services/service_locator.dart';
 import 'package:social_app/core/utils/enums.dart';
@@ -44,15 +44,11 @@ class RegisterScreen extends StatelessWidget {
                   Positioned(
                     top: 8.0,
                     left: 8.0,
-                    child: InkWell(
-                      onTap: () => GoRouter.of(context).pop(),
-                      child: CircleAvatar(
-                        radius: 25.0,
-                        backgroundColor: Theme.of(context).colorScheme.surface,
-                        child: const Icon(
-                          Icons.arrow_back,
-                          color: Colors.black,
-                        ),
+                    child: DefaultAppBarIcon(
+                      onPressed: () => Navigator.pop(context),
+                      child: const Icon(
+                        Icons.arrow_back,
+                        color: Colors.black,
                       ),
                     ),
                   ),

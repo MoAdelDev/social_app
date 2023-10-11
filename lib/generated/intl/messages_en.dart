@@ -25,9 +25,12 @@ class MessageLookup extends MessageLookupByLibrary {
         "emailInputError":
             MessageLookupByLibrary.simpleMessage("Enter Email Address"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),
+        "explore": MessageLookupByLibrary.simpleMessage("Explore"),
         "forgotPasswordQuestion":
             MessageLookupByLibrary.simpleMessage("Forgot Password ?"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
+        "loginSuccessMsg": MessageLookupByLibrary.simpleMessage(
+            "You have been logged in successfully"),
         "nameInputError": MessageLookupByLibrary.simpleMessage("Enter Name"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
         "passwordInputError":
@@ -35,6 +38,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
         "phoneInputError": MessageLookupByLibrary.simpleMessage("Enter Phone"),
         "phoneLabel": MessageLookupByLibrary.simpleMessage("Phone"),
+        "postSuccessMsg": MessageLookupByLibrary.simpleMessage(
+            "The post has been published successfully"),
         "register": MessageLookupByLibrary.simpleMessage("Register"),
         "registerQuestion": MessageLookupByLibrary.simpleMessage(
             "Aren\'t you have an account?"),

@@ -179,6 +179,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Explore`
+  String get explore {
+    return Intl.message(
+      'Explore',
+      name: 'explore',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `The post has been published successfully`
+  String get postSuccessMsg {
+    return Intl.message(
+      'The post has been published successfully',
+      name: 'postSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `You have been logged in successfully`
+  String get loginSuccessMsg {
+    return Intl.message(
+      'You have been logged in successfully',
+      name: 'loginSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {
