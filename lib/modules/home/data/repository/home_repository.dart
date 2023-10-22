@@ -49,10 +49,12 @@ class HomeRepository extends BaseHomeRepository {
 
   @override
   Future<Either<Failure, void>> likePost(
-      {required String postId, required String uid, required bool isLiked}) async {
+      {required String postId,
+      required String uid,
+      required bool isLiked}) async {
     try {
-      final result =
-          await basePostRemoteDataSource.likePost(postId: postId, uid: uid, isLiked: isLiked);
+      final result = await basePostRemoteDataSource.likePost(
+          postId: postId, uid: uid, isLiked: isLiked);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.errorMessageModel.message));
@@ -65,6 +67,17 @@ class HomeRepository extends BaseHomeRepository {
     try {
       final result =
           await basePostRemoteDataSource.getIsLikedPost(posts: posts, uid: uid);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, int>>> getPostsLikes(
+      {required List<Post> posts}) async {
+    try {
+      final result = await basePostRemoteDataSource.getPostsLikes(posts: posts);
       return Right(result);
     } on ServerException catch (e) {
       return Left(ServerFailure(e.errorMessageModel.message));

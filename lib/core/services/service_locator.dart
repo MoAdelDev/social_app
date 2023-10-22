@@ -9,6 +9,7 @@ import 'package:social_app/modules/home/data/datasource/home_remote_datasource.d
 import 'package:social_app/modules/home/data/repository/home_repository.dart';
 import 'package:social_app/modules/home/domain/repository/base_home_repository.dart';
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_posts_likes_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
@@ -40,6 +41,7 @@ class ServiceLocator {
     sl.registerLazySingleton<PublishPostUseCase>(() => PublishPostUseCase(sl()));
     sl.registerLazySingleton<GetIsLikedPostUseCase>(() => GetIsLikedPostUseCase(sl()));
     sl.registerLazySingleton<LikePostUseCase>(() => LikePostUseCase(sl()));
+    sl.registerLazySingleton<GetPostsLikesUseCase>(() => GetPostsLikesUseCase(sl()));
 
   }
 }

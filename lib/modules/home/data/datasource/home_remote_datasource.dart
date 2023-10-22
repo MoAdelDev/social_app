@@ -21,7 +21,10 @@ abstract class BaseHomeRemoteDataSource {
   Future<Map<String, bool>> getIsLikedPost(
       {required List<Post> posts, required String uid});
 
-  Future<void> likePost({required String postId, required String uid, required bool isLiked});
+  Future<Map<String, int>> getPostsLikes({required List<Post> posts});
+
+  Future<void> likePost(
+      {required String postId, required String uid, required bool isLiked});
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
@@ -81,7 +84,10 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
   }
 
   @override
-  Future<void> likePost({required String postId, required String uid, required bool isLiked}) async {
+  Future<void> likePost(
+      {required String postId,
+      required String uid,
+      required bool isLiked}) async {
     await FirebaseFirestore.instance
         .collection('posts')
         .doc(postId)
@@ -114,5 +120,22 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
       }
     }
     return isLikedMap;
+  }
+
+  @override
+  Future<Map<String, int>> getPostsLikes({required List<Post> posts}) async {
+    Map<String, int> likesMap = {};
+    for (Post post in posts) {
+      final result = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(post.id)
+          .collection('likes')
+          .get()
+          .catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+      likesMap.addAll({post.id: result.docs.length});
+    }
+    return likesMap;
   }
 }

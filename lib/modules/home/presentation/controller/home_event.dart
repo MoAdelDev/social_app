@@ -25,7 +25,6 @@ class HomePublishPostEvent extends BaseHomeEvent {
   HomePublishPostEvent(this.imageFile, this.captionText, this.context);
 }
 
-
 class HomeGetPostsEvent extends BaseHomeEvent {
   const HomeGetPostsEvent();
 }
@@ -36,12 +35,23 @@ class HomeGetPostsUsersEvent extends BaseHomeEvent {
   const HomeGetPostsUsersEvent(this.posts);
 }
 
-
 class HomeGetIsLikedPostEvent extends BaseHomeEvent {
   final List<Post> posts;
   final Map<String, user_entity.User> postsUsers;
 
   const HomeGetIsLikedPostEvent(this.posts, this.postsUsers);
+}
+
+class HomeGetPostsLikesEvent extends BaseHomeEvent {
+  final List<Post> posts;
+  final Map<String, user_entity.User> postsUsers;
+  final Map<String, bool> isLikedMap;
+
+  const HomeGetPostsLikesEvent(
+    this.posts,
+    this.postsUsers,
+    this.isLikedMap,
+  );
 }
 
 class HomeLoadPostsEvent extends BaseHomeEvent {

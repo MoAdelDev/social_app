@@ -18,6 +18,10 @@ abstract class BaseHomeRepository {
   Future<Either<Failure, Map<String, bool>>> getIsLikedPost(
       {required List<Post> posts, required String uid});
 
+  Future<Either<Failure, Map<String, int>>> getPostsLikes(
+      {required List<Post> posts,});
+
+
   Future<Either<Failure, void>> likePost(
       {required String postId, required String uid, required bool isLiked});
 }

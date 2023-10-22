@@ -1,9 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_app/core/components/default_shimmer.dart';
-import 'package:social_app/modules/authentication/domain/entities/user.dart';
+import 'package:social_app/modules/authentication/domain/entities/user.dart' as user_entity;
 import 'package:social_app/modules/home/domain/entities/post.dart';
 
 import '../../../../core/components/default_progress_indicator.dart';
@@ -12,7 +13,7 @@ import '../controller/home_bloc.dart';
 
 class PostItemWidget extends StatelessWidget {
   final Post post;
-  final User user;
+  final user_entity.User user;
 
   const PostItemWidget({
     super.key,
@@ -102,20 +103,29 @@ class PostItemWidget extends StatelessWidget {
                         const SizedBox(
                           width: 3.0,
                         ),
-                        Text(
-                          post.date,
-                          style: Theme.of(context)
-                              .textTheme
-                              .bodySmall
-                              ?.copyWith(
-                                  fontFamily: AppFonts.regular,
-                                  color: Colors.grey[700]),
+                        Expanded(
+                          child: Text(
+                            post.date,
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodySmall
+                                ?.copyWith(
+                                    fontFamily: AppFonts.regular,
+                                    color: Colors.grey[700]),
+                          ),
                         ),
                       ],
                     ),
                   ],
                 ),
-              )
+              ),
+              if (user.uid == FirebaseAuth.instance.currentUser?.uid)
+                IconButton(
+                  onPressed: () {},
+                  icon: const Icon(
+                    Icons.more_horiz,
+                  ),
+                ),
             ],
           ),
           const SizedBox(
@@ -202,7 +212,9 @@ class PostItemWidget extends StatelessWidget {
                             children: [
                               IconButton(
                                 onPressed: () {
-                                  context.read<HomeBloc>().add(HomeLikePostEvent(post.id));
+                                  context
+                                      .read<HomeBloc>()
+                                      .add(HomeLikePostEvent(post.id));
                                 },
                                 icon: SvgPicture.asset(
                                   state.isLikedMap[post.id] ?? false
@@ -211,7 +223,7 @@ class PostItemWidget extends StatelessWidget {
                                 ),
                               ),
                               Text(
-                                '10',
+                                '${state.postsLikes[post.id]}',
                                 style: TextStyle(
                                     color: Colors.white.withOpacity(0.8)),
                               )

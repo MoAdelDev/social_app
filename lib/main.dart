@@ -55,6 +55,7 @@ class MyApp extends StatelessWidget {
               sl(),
               sl(),
               sl(),
+              sl(),
             )..add(const HomeGetPostsEvent()),
           ),
         ],

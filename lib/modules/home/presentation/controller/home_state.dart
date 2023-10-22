@@ -18,6 +18,7 @@ class HomeState extends Equatable {
   final Map<String, bool> isLikedMap;
 
   final Map<String, user_entity.User> postsUsers;
+  final Map<String, int> postsLikes;
 
   const HomeState({
     this.currentIndex = 0,
@@ -38,6 +39,7 @@ class HomeState extends Equatable {
     this.likeState = RequestState.nothing,
     this.likeError = '',
     this.isLikedMap = const {},
+    this.postsLikes = const {},
   });
 
   HomeState copyWith({
@@ -54,6 +56,7 @@ class HomeState extends Equatable {
     RequestState? likeState,
     String? likeError,
     Map<String, bool>? isLikedMap,
+    Map<String, int>? postsLikes,
   }) =>
       HomeState(
         currentIndex: currentIndex ?? this.currentIndex,
@@ -69,6 +72,7 @@ class HomeState extends Equatable {
         likeState: likeState ?? this.likeState,
         likeError: likeError ?? this.likeError,
         isLikedMap: isLikedMap ?? this.isLikedMap,
+        postsLikes: postsLikes ?? this.postsLikes,
       );
 
   @override
@@ -86,5 +90,6 @@ class HomeState extends Equatable {
         likeError,
         postsUsers,
         isLikedMap,
+        postsLikes,
       ];
 }

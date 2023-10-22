@@ -25,6 +25,7 @@ import 'package:social_app/modules/settings/settings_screen.dart';
 
 import '../../../authentication/domain/entities/user.dart' as user_entity;
 import '../../domain/entities/post.dart';
+import '../../domain/usecases/get_posts_likes_usecase.dart';
 import '../../domain/usecases/get_posts_users_usecase.dart';
 
 part 'home_event.dart';
@@ -37,6 +38,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final GetIsLikedPostUseCase getIsLikedPostUseCase;
   final PublishPostUseCase publishPostUseCase;
   final LikePostUseCase likePostUseCase;
+  final GetPostsLikesUseCase getPostsLikesUseCase;
 
   HomeBloc(
     this.getPostsUseCase,
@@ -44,6 +46,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     this.publishPostUseCase,
     this.likePostUseCase,
     this.getIsLikedPostUseCase,
+    this.getPostsLikesUseCase,
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
@@ -53,6 +56,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     on<HomeLoadPostsEvent>(_reloadPosts);
     on<HomeLikePostEvent>(_likePost);
     on<HomeGetIsLikedPostEvent>(_getIsLikedPost);
+    on<HomeGetPostsLikesEvent>(_getPostsLikes);
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -176,11 +180,24 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       emit(state.copyWith(
           postsError: failure.message, postsState: RequestState.error));
     }, (isLikedMap) {
+      add(HomeGetPostsLikesEvent(event.posts, event.postsUsers, isLikedMap));
+    });
+  }
+
+  FutureOr<void> _getPostsLikes(
+      HomeGetPostsLikesEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsLikesUseCase(posts: event.posts);
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
+      emit(state.copyWith(
+          postsError: failure.message, postsState: RequestState.error));
+    }, (postsLikes) {
       emit(state.copyWith(
         postsUsers: event.postsUsers,
         posts: event.posts,
-        isLikedMap: isLikedMap,
+        isLikedMap: event.isLikedMap,
         postsState: RequestState.success,
+        postsLikes: postsLikes,
         isLoading: false,
       ));
     });
