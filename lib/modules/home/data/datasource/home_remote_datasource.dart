@@ -17,6 +17,11 @@ abstract class BaseHomeRemoteDataSource {
   Future<List<PostModel>> getPosts();
 
   Future<Map<String, UserModel>> getPostsUsers({required List<Post> posts});
+
+  Future<Map<String, bool>> getIsLikedPost(
+      {required List<Post> posts, required String uid});
+
+  Future<void> likePost({required String postId, required String uid, required bool isLiked});
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
@@ -43,7 +48,7 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
       String uid = result.data()?['uid'];
       final userResult =
           await FirebaseFirestore.instance.collection('users').doc(uid).get();
-      usersMap.addAll({id: UserModel.formJson(userResult.data()??{})});
+      usersMap.addAll({id: UserModel.formJson(userResult.data() ?? {})});
     }
     return usersMap;
   }
@@ -73,5 +78,41 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
         .catchError((error) {
       throw ServerException(ErrorMessageModel(error.toString()));
     });
+  }
+
+  @override
+  Future<void> likePost({required String postId, required String uid, required bool isLiked}) async {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .collection('likes')
+        .doc(uid)
+        .set({'like': isLiked}).catchError((error) {
+      throw ServerException(ErrorMessageModel(error.toString()));
+    });
+  }
+
+  @override
+  Future<Map<String, bool>> getIsLikedPost(
+      {required List<Post> posts, required String uid}) async {
+    Map<String, bool> isLikedMap = {};
+    for (Post post in posts) {
+      final result = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(post.id)
+          .collection('likes')
+          .doc(uid)
+          .get()
+          .catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+
+      if (result.data() != null && result.data()?['like']) {
+        isLikedMap.addAll({post.id: true});
+      } else {
+        isLikedMap.addAll({post.id: false});
+      }
+    }
+    return isLikedMap;
   }
 }

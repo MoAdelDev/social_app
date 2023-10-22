@@ -36,6 +36,20 @@ class HomeGetPostsUsersEvent extends BaseHomeEvent {
   const HomeGetPostsUsersEvent(this.posts);
 }
 
+
+class HomeGetIsLikedPostEvent extends BaseHomeEvent {
+  final List<Post> posts;
+  final Map<String, user_entity.User> postsUsers;
+
+  const HomeGetIsLikedPostEvent(this.posts, this.postsUsers);
+}
+
 class HomeLoadPostsEvent extends BaseHomeEvent {
   const HomeLoadPostsEvent();
+}
+
+class HomeLikePostEvent extends BaseHomeEvent {
+  final String postId;
+
+  const HomeLikePostEvent(this.postId);
 }

@@ -14,7 +14,9 @@ import 'package:social_app/core/utils/app_toast.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/data/models/post_model.dart';
+import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
 import 'package:social_app/modules/home/presentation/screens/posts_screen.dart';
 import 'package:social_app/modules/messages/messages_screen.dart';
@@ -32,17 +34,25 @@ part 'home_state.dart';
 class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final GetPostsUseCase getPostsUseCase;
   final GetPostsUsersUseCase getPostsUsersUseCase;
+  final GetIsLikedPostUseCase getIsLikedPostUseCase;
   final PublishPostUseCase publishPostUseCase;
+  final LikePostUseCase likePostUseCase;
 
   HomeBloc(
-      this.getPostsUseCase, this.getPostsUsersUseCase, this.publishPostUseCase)
-      : super(const HomeState()) {
+    this.getPostsUseCase,
+    this.getPostsUsersUseCase,
+    this.publishPostUseCase,
+    this.likePostUseCase,
+    this.getIsLikedPostUseCase,
+  ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
     on<HomeGetPostsEvent>(_getPosts);
     on<HomeGetPostsUsersEvent>(_getPostsUsers);
     on<HomePublishPostEvent>(_publishPost);
     on<HomeLoadPostsEvent>(_reloadPosts);
+    on<HomeLikePostEvent>(_likePost);
+    on<HomeGetIsLikedPostEvent>(_getIsLikedPost);
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -153,9 +163,23 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       emit(state.copyWith(
           postsError: failure.message, postsState: RequestState.error));
     }, (postsUsers) {
+      add(HomeGetIsLikedPostEvent(event.posts, postsUsers));
+    });
+  }
+
+  FutureOr<void> _getIsLikedPost(
+      HomeGetIsLikedPostEvent event, Emitter<HomeState> emit) async {
+    final result = await getIsLikedPostUseCase(
+        posts: event.posts, uid: FirebaseAuth.instance.currentUser?.uid ?? '');
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
       emit(state.copyWith(
-        postsUsers: postsUsers,
+          postsError: failure.message, postsState: RequestState.error));
+    }, (isLikedMap) {
+      emit(state.copyWith(
+        postsUsers: event.postsUsers,
         posts: event.posts,
+        isLikedMap: isLikedMap,
         postsState: RequestState.success,
         isLoading: false,
       ));
@@ -166,5 +190,34 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       HomeLoadPostsEvent event, Emitter<HomeState> emit) {
     emit(state.copyWith(isLoading: true));
     add(const HomeGetPostsEvent());
+  }
+
+  FutureOr<void> _likePost(
+      HomeLikePostEvent event, Emitter<HomeState> emit) async {
+    Map<String, bool> isLikedMap = state.isLikedMap;
+    bool isLiked = !state.isLikedMap[event.postId]!;
+    isLikedMap[event.postId] = isLiked;
+    emit(state.copyWith(
+        likeState: RequestState.loading, isLikedMap: isLikedMap));
+    final result = await likePostUseCase(
+      postId: event.postId,
+      uid: FirebaseAuth.instance.currentUser?.uid ?? '',
+      isLiked: isLiked,
+    );
+    result.fold((error) {
+      Map<String, bool> isLikedMap = state.isLikedMap;
+      bool isLiked = !state.isLikedMap[event.postId]!;
+      isLikedMap[event.postId] = isLiked;
+      emit(state.copyWith(
+        likeState: RequestState.error,
+        likeError: error.message,
+        isLikedMap: isLikedMap,
+      ));
+    }, (_) {
+      add(const HomeGetPostsEvent());
+      emit(state.copyWith(
+        likeState: RequestState.success,
+      ));
+    });
   }
 }

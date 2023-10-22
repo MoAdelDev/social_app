@@ -49,7 +49,13 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => HomeBloc(sl(), sl(), sl())..add(const HomeGetPostsEvent()),
+            create: (context) => HomeBloc(
+              sl(),
+              sl(),
+              sl(),
+              sl(),
+              sl(),
+            )..add(const HomeGetPostsEvent()),
           ),
         ],
         child: MaterialApp(
