@@ -1,10 +1,7 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:iconsax/iconsax.dart';
-
 import '../controller/home_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -103,13 +100,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        state.currentIndex == 0 ? Iconsax.home5 : Iconsax.home,
-                        size: 30.0,
-                        color: Colors.white,
+                      SvgPicture.asset(
+                        state.currentIndex == 0 ? 'assets/icons/home_filled.svg' : 'assets/icons/home.svg',
+                        width: 27.0,
+                        height: 27.0,
                       ),
                       if (state.currentIndex == 0)
-                        SvgPicture.asset('assets/icons/rectangle.svg')
+                        Column(
+                          children: [
+                            const SizedBox(height: 3.0,),
+                            SvgPicture.asset('assets/icons/rectangle.svg'),
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -120,15 +122,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        state.currentIndex == 1
-                            ? CupertinoIcons.chat_bubble_2_fill
-                            : CupertinoIcons.chat_bubble_2,
-                        size: 30.0,
-                        color: Colors.white,
+                      SvgPicture.asset(
+                        state.currentIndex == 1 ? 'assets/icons/messages_filled.svg' : 'assets/icons/messages.svg',
+                        width: 27.0,
+                        height: 27.0,
                       ),
                       if (state.currentIndex == 1)
-                        SvgPicture.asset('assets/icons/rectangle.svg')
+                        Column(
+                          children: [
+                            const SizedBox(height: 3.0,),
+                            SvgPicture.asset('assets/icons/rectangle.svg'),
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -139,15 +144,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        state.currentIndex == 2
-                            ? CupertinoIcons.person_fill
-                            : CupertinoIcons.person,
-                        color: Colors.white,
-                        size: 30.0,
+                      SvgPicture.asset(
+                        state.currentIndex == 2 ? 'assets/icons/person_filled.svg' : 'assets/icons/person.svg',
+                        width: 27.0,
+                        height: 27.0,
                       ),
                       if (state.currentIndex == 2)
-                        SvgPicture.asset('assets/icons/rectangle.svg')
+                        Column(
+                          children: [
+                            const SizedBox(height: 3.0,),
+                            SvgPicture.asset('assets/icons/rectangle.svg'),
+                          ],
+                        )
                     ],
                   ),
                 ),
@@ -158,15 +166,18 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Column(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      Icon(
-                        state.currentIndex == 3
-                            ? Icons.settings
-                            : Iconsax.setting_2,
-                        color: Colors.white,
-                        size: 30.0,
+                      SvgPicture.asset(
+                        state.currentIndex == 3 ? 'assets/icons/settings_filled.svg' : 'assets/icons/settings.svg',
+                        width: 27.0,
+                        height: 27.0,
                       ),
                       if (state.currentIndex == 3)
-                        SvgPicture.asset('assets/icons/rectangle.svg')
+                        Column(
+                          children: [
+                            const SizedBox(height: 3.0,),
+                            SvgPicture.asset('assets/icons/rectangle.svg'),
+                          ],
+                        )
                     ],
                   ),
                 ),
