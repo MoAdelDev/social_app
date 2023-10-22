@@ -3,7 +3,7 @@ import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/modules/authentication/presentation/screens/login_screen.dart';
 import 'package:social_app/modules/authentication/presentation/screens/register_screen.dart';
 import 'package:social_app/modules/home/presentation/screens/home_screen.dart';
-import 'package:social_app/modules/publish/presentation/screens/publish_screen.dart';
+import 'package:social_app/modules/home/presentation/screens/publish_post_screen.dart';
 
 class AppRouter {
   static const kLoginScreen = '/login';
@@ -21,17 +21,18 @@ class AppRouter {
         );
       case AppRouter.kRegisterScreen:
         return MaterialPageRoute(
-          builder: (context) => RegisterScreen(),
+          builder: (context) => const RegisterScreen(),
         );
       case AppRouter.kPublishScreen:
         var args = settings.arguments as ScreenArguments;
         return MaterialPageRoute(
-          builder: (context) => PublishScreen(args: args),
+          builder: (context) => PublishPostScreen(args: args),
         );
       case AppRouter.kHomeScreen:
         return MaterialPageRoute(
           builder: (context) => const HomeScreen(),
         );
     }
+    return null;
   }
 }

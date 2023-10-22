@@ -1,7 +1,12 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:social_app/core/router/app_router.dart';
+import 'package:social_app/modules/home/presentation/widgets/image_picker_dialog.dart';
+import '../../../../core/router/screen_arguments.dart';
 import '../controller/home_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,44 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return AlertDialog(
-                    insetPadding: EdgeInsets.zero,
-                    backgroundColor: Theme.of(context).colorScheme.surface,
-                    title: Text(
-                      'Image source',
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    content: Text(
-                      'Please choose image source',
-                      style: Theme.of(context).textTheme.bodySmall,
-                    ),
-                    actions: [
-                      TextButton(
-                        onPressed: () => context.read<HomeBloc>().add(
-                              HomePickImageFromCameraOrGallery(
-                                true,
-                                context,
-                              ),
-                            ),
-                        child: Text(
-                          'Camera',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      ),
-                      TextButton(
-                        onPressed: () => context.read<HomeBloc>().add(
-                              HomePickImageFromCameraOrGallery(
-                                false,
-                                context,
-                              ),
-                            ),
-                        child: Text(
-                          'Gallery',
-                          style: Theme.of(context).textTheme.bodySmall,
-                        ),
-                      )
-                    ],
-                  );
+                  return const ImagePickerDialog();
                 },
               );
             },
@@ -101,14 +69,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        state.currentIndex == 0 ? 'assets/icons/home_filled.svg' : 'assets/icons/home.svg',
+                        state.currentIndex == 0
+                            ? 'assets/icons/home_filled.svg'
+                            : 'assets/icons/home.svg',
                         width: 27.0,
                         height: 27.0,
                       ),
                       if (state.currentIndex == 0)
                         Column(
                           children: [
-                            const SizedBox(height: 3.0,),
+                            const SizedBox(
+                              height: 3.0,
+                            ),
                             SvgPicture.asset('assets/icons/rectangle.svg'),
                           ],
                         )
@@ -123,14 +95,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        state.currentIndex == 1 ? 'assets/icons/messages_filled.svg' : 'assets/icons/messages.svg',
+                        state.currentIndex == 1
+                            ? 'assets/icons/messages_filled.svg'
+                            : 'assets/icons/messages.svg',
                         width: 27.0,
                         height: 27.0,
                       ),
                       if (state.currentIndex == 1)
                         Column(
                           children: [
-                            const SizedBox(height: 3.0,),
+                            const SizedBox(
+                              height: 3.0,
+                            ),
                             SvgPicture.asset('assets/icons/rectangle.svg'),
                           ],
                         )
@@ -145,14 +121,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        state.currentIndex == 2 ? 'assets/icons/person_filled.svg' : 'assets/icons/person.svg',
+                        state.currentIndex == 2
+                            ? 'assets/icons/person_filled.svg'
+                            : 'assets/icons/person.svg',
                         width: 27.0,
                         height: 27.0,
                       ),
                       if (state.currentIndex == 2)
                         Column(
                           children: [
-                            const SizedBox(height: 3.0,),
+                            const SizedBox(
+                              height: 3.0,
+                            ),
                             SvgPicture.asset('assets/icons/rectangle.svg'),
                           ],
                         )
@@ -167,14 +147,18 @@ class _HomeScreenState extends State<HomeScreen> {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        state.currentIndex == 3 ? 'assets/icons/settings_filled.svg' : 'assets/icons/settings.svg',
+                        state.currentIndex == 3
+                            ? 'assets/icons/settings_filled.svg'
+                            : 'assets/icons/settings.svg',
                         width: 27.0,
                         height: 27.0,
                       ),
                       if (state.currentIndex == 3)
                         Column(
                           children: [
-                            const SizedBox(height: 3.0,),
+                            const SizedBox(
+                              height: 3.0,
+                            ),
                             SvgPicture.asset('assets/icons/rectangle.svg'),
                           ],
                         )

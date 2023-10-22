@@ -1,4 +1,5 @@
 import 'package:conditional_builder_null_safety/conditional_builder_null_safety.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/core/components/default_animation.dart';
@@ -12,14 +13,25 @@ import '../../../../core/components/default_scroll_physics.dart';
 import '../../../../core/components/default_text_form_field.dart';
 import '../../../../generated/l10n.dart';
 
-class RegisterScreen extends StatelessWidget {
+class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
+  @override
+  State<RegisterScreen> createState() => _RegisterScreenState();
+}
+
+class _RegisterScreenState extends State<RegisterScreen> {
   final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _emailController = TextEditingController();
+
   final TextEditingController _phoneController = TextEditingController();
+
   final TextEditingController _passwordController = TextEditingController();
+
   final _formKey = GlobalKey<FormState>();
 
-  RegisterScreen({super.key});
+  int genderSelected = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -58,7 +70,7 @@ class RegisterScreen extends StatelessWidget {
                 animationDirection: AnimationDirection.up,
                 child: Container(
                   width: double.infinity,
-                  height: MediaQuery.sizeOf(context).height * 0.80,
+                  height: MediaQuery.sizeOf(context).height,
                   color: Theme.of(context).colorScheme.surface,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -136,6 +148,73 @@ class RegisterScreen extends StatelessWidget {
                           const SizedBox(
                             height: 20.0,
                           ),
+                          Container(
+                            width: double.infinity,
+                            padding: const EdgeInsets.all(8.0),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).colorScheme.surface,
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.primary,
+                              ),
+                              borderRadius: BorderRadius.circular(10.0),
+                            ),
+                            child: DropdownButton(
+                              value: genderSelected,
+                              isExpanded: true,
+                              isDense: true,
+                              underline: Container(),
+                              items: [
+                                DropdownMenuItem(
+                                  value: 0,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.man,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Text(
+                                        'Male',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                                DropdownMenuItem(
+                                  value: 1,
+                                  child: Row(
+                                    children: [
+                                      const Icon(
+                                        Icons.woman,
+                                        color: Colors.grey,
+                                      ),
+                                      const SizedBox(
+                                        width: 10.0,
+                                      ),
+                                      Text(
+                                        'Female',
+                                        style: Theme.of(context)
+                                            .textTheme
+                                            .displayLarge,
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ],
+                              onChanged: (value) {
+                                setState(() {
+                                  genderSelected = value ?? 0;
+                                });
+                              },
+                            ),
+                          ),
+                          const SizedBox(
+                            height: 20.0,
+                          ),
                           BlocBuilder<RegisterBloc, RegisterState>(
                             builder: (context, state) {
                               return ConditionalBuilder(
@@ -147,10 +226,15 @@ class RegisterScreen extends StatelessWidget {
                                       if (_formKey.currentState!.validate()) {
                                         context.read<RegisterBloc>().add(
                                               RegisterEvent(
-                                                  _passwordController.text,
-                                                  _nameController.text,
-                                                  _phoneController.text,
-                                                  _emailController.text),
+                                                _passwordController.text,
+                                                _nameController.text,
+                                                _phoneController.text,
+                                                _emailController.text,
+                                                genderSelected == 0
+                                                    ? 'Male'
+                                                    : 'Female',
+                                                context,
+                                              ),
                                             );
                                       }
                                     }),

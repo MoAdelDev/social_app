@@ -6,14 +6,17 @@ class UserModel extends User {
       required super.name,
       required super.email,
       required super.photo,
-      required super.phone});
+      required super.phone,
+      required super.gender});
 
   factory UserModel.formJson(Map<String, dynamic> json) => UserModel(
-      uid: json['uid'],
-      name: json['name'],
-      email: json['email'],
-      photo: json['photo'],
-      phone: json['phone']);
+        uid: json['uid'],
+        name: json['name'],
+        email: json['email'],
+        photo: json['photo'],
+        phone: json['phone'],
+        gender: json['gender'],
+      );
 
   Map<String, dynamic> toJson() => {
         'uid': uid,
@@ -21,5 +24,6 @@ class UserModel extends User {
         'email': email,
         'photo': photo,
         'phone': phone,
+        'gender': gender,
       };
 }

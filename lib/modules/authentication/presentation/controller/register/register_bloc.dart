@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:social_app/core/router/app_router.dart';
 import 'package:social_app/core/utils/app_toast.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/main.dart';
@@ -25,8 +26,11 @@ class RegisterBloc extends Bloc<BaseRegisterEvent, RegisterState> {
     on<RegisterEvent>(_register);
     on<RegisterAddUserEvent>(_addUser);
     on<RegisterShowPasswordEvent>(_showPassword);
-    on<RegisterSuccessEvent>((event, emit) =>
-        emit(state.copyWith(registerState: RequestState.success)));
+    on<RegisterSuccessEvent>((event, emit) {
+      Navigator.pushNamedAndRemoveUntil(
+          event.context, AppRouter.kHomeScreen, (route) => false);
+      emit(state.copyWith(registerState: RequestState.success));
+    });
   }
 
   FutureOr<void> _register(
@@ -41,7 +45,8 @@ class RegisterBloc extends Bloc<BaseRegisterEvent, RegisterState> {
           registerState: RequestState.error, registerError: error.message));
     }, (right) {
       // Add user
-      add(RegisterAddUserEvent(event.name, event.phone));
+      add(RegisterAddUserEvent(
+          event.name, event.phone, event.gender, event.context));
     });
   }
 
@@ -53,6 +58,7 @@ class RegisterBloc extends Bloc<BaseRegisterEvent, RegisterState> {
       email: FirebaseAuth.instance.currentUser?.email ?? '',
       photo: '',
       phone: event.phone,
+      gender: event.gender,
     );
 
     final result = await addUserUseCase(userModel: userModel);
@@ -65,7 +71,7 @@ class RegisterBloc extends Bloc<BaseRegisterEvent, RegisterState> {
           msg: "You have been registered successfully",
           state: RequestState.success);
       MyApp.user = userModel;
-      add(const RegisterSuccessEvent());
+      add(RegisterSuccessEvent(event.context));
     });
   }
 

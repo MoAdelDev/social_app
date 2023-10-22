@@ -3,24 +3,45 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:social_app/core/router/app_router.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
-import 'package:social_app/modules/home/presentation/screens/explore_screen.dart';
+import 'package:social_app/core/utils/app_toast.dart';
+import 'package:social_app/core/utils/enums.dart';
+import 'package:social_app/generated/l10n.dart';
+import 'package:social_app/modules/home/data/models/post_model.dart';
+import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
+import 'package:social_app/modules/home/presentation/screens/posts_screen.dart';
 import 'package:social_app/modules/messages/messages_screen.dart';
 import 'package:social_app/modules/profile/profile_screen.dart';
 import 'package:social_app/modules/settings/settings_screen.dart';
+
+import '../../../authentication/domain/entities/user.dart' as user_entity;
+import '../../domain/entities/post.dart';
+import '../../domain/usecases/get_posts_users_usecase.dart';
 
 part 'home_event.dart';
 
 part 'home_state.dart';
 
 class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
-  HomeBloc() : super(const HomeState()) {
+  final GetPostsUseCase getPostsUseCase;
+  final GetPostsUsersUseCase getPostsUsersUseCase;
+  final PublishPostUseCase publishPostUseCase;
+
+  HomeBloc(
+      this.getPostsUseCase, this.getPostsUsersUseCase, this.publishPostUseCase)
+      : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
-    on<HomePickImageFromCameraOrGallery>(_pickImage);
+    on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
+    on<HomeGetPostsEvent>(_getPosts);
+    on<HomeGetPostsUsersEvent>(_getPostsUsers);
+    on<HomePublishPostEvent>(_publishPost);
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -28,8 +49,8 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     emit(state.copyWith(currentIndex: event.index));
   }
 
-  FutureOr<void> _pickImage(
-      HomePickImageFromCameraOrGallery event, Emitter<HomeState> emit) async {
+  FutureOr<void> _pickImage(HomePickImageFromCameraOrGalleryEvent event,
+      Emitter<HomeState> emit) async {
     if (await _checkPermission(event.context)) {
       XFile? imagePicked;
       if (event.isCamera) {
@@ -39,8 +60,16 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
             await ImagePicker().pickImage(source: ImageSource.gallery);
       }
       if (imagePicked != null) {
-        ScreenArguments screenArguments = ScreenArguments.toPublishScreen(imageFile: File(imagePicked.path));
-        Navigator.pushNamed(event.context, AppRouter.kPublishScreen, arguments: screenArguments);
+        ScreenArguments screenArguments =
+            ScreenArguments.toPublishScreen(imageFile: File(imagePicked.path));
+        if (event.context.mounted) {
+          // ignore: use_build_context_synchronously
+          Navigator.pushNamed(
+            event.context,
+            AppRouter.kPublishScreen,
+            arguments: screenArguments,
+          );
+        }
       }
     }
   }
@@ -70,5 +99,63 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       return false;
     }
     return true;
+  }
+
+  FutureOr<void> _publishPost(
+      HomePublishPostEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(publishState: RequestState.loading));
+    String id = DateTime.now().millisecondsSinceEpoch.toString();
+
+    DateTime now = DateTime.now();
+    String date = DateFormat.yMd().add_jm().format(now);
+    PostModel postModel = PostModel(
+      id,
+      event.captionText,
+      '',
+      date,
+      FirebaseAuth.instance.currentUser?.uid ?? '',
+    );
+    final result = await publishPostUseCase(
+      postModel: postModel,
+      imageFile: event.imageFile,
+    );
+    result.fold((error) {
+      AppToast.showToast(msg: error.message, state: RequestState.error);
+      emit(state.copyWith(
+          publishError: error.message, publishState: RequestState.error));
+    }, (right) {
+      AppToast.showToast(
+          msg: S.of(event.context).postSuccessMsg, state: RequestState.success);
+      add(const HomeGetPostsEvent());
+      Navigator.pop(event.context);
+      emit(state.copyWith(publishState: RequestState.success));
+    });
+  }
+
+  FutureOr<void> _getPosts(
+      HomeGetPostsEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsUseCase();
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
+      emit(state.copyWith(
+          postsError: failure.message, postsState: RequestState.error));
+    }, (posts) {
+      add(HomeGetPostsUsersEvent(posts));
+    });
+  }
+
+  FutureOr<void> _getPostsUsers(
+      HomeGetPostsUsersEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsUsersUseCase(posts: event.posts);
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
+      emit(state.copyWith(
+          postsError: failure.message, postsState: RequestState.error));
+    }, (postsUsers) {
+      emit(state.copyWith(
+          postsUsers: postsUsers,
+          posts: event.posts,
+          postsState: RequestState.success));
+    });
   }
 }

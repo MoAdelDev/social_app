@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
   static bool isDark = false;
   static bool isArabic = false;
   static user_entity.User? user;
+  static Map<String, user_entity.User> postsUsers = {};
 
   const MyApp({super.key});
 
@@ -48,7 +49,7 @@ class MyApp extends StatelessWidget {
       child: MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => HomeBloc(),
+            create: (context) => HomeBloc(sl(), sl(), sl())..add(const HomeGetPostsEvent()),
           ),
         ],
         child: MaterialApp(

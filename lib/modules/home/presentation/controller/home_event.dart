@@ -10,9 +10,28 @@ class HomeChangeBottomNavIndexEvent extends BaseHomeEvent {
   HomeChangeBottomNavIndexEvent(this.index);
 }
 
-class HomePickImageFromCameraOrGallery extends BaseHomeEvent {
+class HomePickImageFromCameraOrGalleryEvent extends BaseHomeEvent {
   final bool isCamera;
   final BuildContext context;
 
-  const HomePickImageFromCameraOrGallery(this.isCamera, this.context);
+  const HomePickImageFromCameraOrGalleryEvent(this.isCamera, this.context);
+}
+
+class HomePublishPostEvent extends BaseHomeEvent {
+  final File imageFile;
+  final String captionText;
+  final BuildContext context;
+
+  HomePublishPostEvent(this.imageFile, this.captionText, this.context);
+}
+
+
+class HomeGetPostsEvent extends BaseHomeEvent {
+  const HomeGetPostsEvent();
+}
+
+class HomeGetPostsUsersEvent extends BaseHomeEvent {
+  final List<Post> posts;
+
+  const HomeGetPostsUsersEvent(this.posts);
 }
