@@ -11,6 +11,7 @@ class HomeState extends Equatable {
   final List<Post> posts;
   final RequestState postsState;
   final String postsError;
+  final bool isLoading;
 
   final Map<String, user_entity.User> postsUsers;
 
@@ -29,6 +30,7 @@ class HomeState extends Equatable {
     this.postsState = RequestState.loading,
     this.postsError = '',
     this.postsUsers = const {},
+    this.isLoading = false,
   });
 
   HomeState copyWith({
@@ -41,6 +43,7 @@ class HomeState extends Equatable {
     RequestState? postsState,
     String? postsError,
     Map<String, user_entity.User>? postsUsers,
+    bool? isLoading,
   }) =>
       HomeState(
         currentIndex: currentIndex ?? this.currentIndex,
@@ -52,11 +55,11 @@ class HomeState extends Equatable {
         postsUsers: postsUsers ?? this.postsUsers,
         publishState: publishState ?? this.publishState,
         publishError: publishError ?? this.publishError,
+        isLoading: isLoading ?? this.isLoading,
       );
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         currentIndex,
         screens,
         imagePicked,
@@ -66,5 +69,6 @@ class HomeState extends Equatable {
         postsState,
         postsError,
         postsUsers,
+        isLoading,
       ];
 }

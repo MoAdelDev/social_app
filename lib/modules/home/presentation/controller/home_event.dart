@@ -35,3 +35,7 @@ class HomeGetPostsUsersEvent extends BaseHomeEvent {
 
   const HomeGetPostsUsersEvent(this.posts);
 }
+
+class HomeLoadPostsEvent extends BaseHomeEvent {
+  const HomeLoadPostsEvent();
+}

@@ -38,7 +38,6 @@ class ImagePickerDialog extends StatelessWidget {
             ),
             TextButton(
               onPressed: () {
-                Navigator.pop(context);
                 context.read<HomeBloc>().add(
                       HomePickImageFromCameraOrGalleryEvent(
                         false,

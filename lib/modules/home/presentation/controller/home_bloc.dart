@@ -42,6 +42,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     on<HomeGetPostsEvent>(_getPosts);
     on<HomeGetPostsUsersEvent>(_getPostsUsers);
     on<HomePublishPostEvent>(_publishPost);
+    on<HomeLoadPostsEvent>(_reloadPosts);
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -153,9 +154,17 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
           postsError: failure.message, postsState: RequestState.error));
     }, (postsUsers) {
       emit(state.copyWith(
-          postsUsers: postsUsers,
-          posts: event.posts,
-          postsState: RequestState.success));
+        postsUsers: postsUsers,
+        posts: event.posts,
+        postsState: RequestState.success,
+        isLoading: false,
+      ));
     });
+  }
+
+  FutureOr<void> _reloadPosts(
+      HomeLoadPostsEvent event, Emitter<HomeState> emit) {
+    emit(state.copyWith(isLoading: true));
+    add(const HomeGetPostsEvent());
   }
 }

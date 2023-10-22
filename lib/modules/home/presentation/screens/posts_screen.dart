@@ -8,20 +8,50 @@ import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
 import 'package:social_app/modules/home/presentation/widgets/post_item_widget.dart';
+import 'package:social_app/modules/home/presentation/widgets/posts_loading_widget.dart';
 
-class PostsScreen extends StatelessWidget {
+class PostsScreen extends StatefulWidget {
   const PostsScreen({super.key});
+
+  @override
+  State<PostsScreen> createState() => _PostsScreenState();
+}
+
+class _PostsScreenState extends State<PostsScreen> {
+  late ScrollController _scrollController;
+  bool isLoading = false;
+
+  late HomeState homeState;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController();
+    _scrollController.addListener(
+      () {
+        if (_scrollController.position.pixels ==
+            _scrollController.position.minScrollExtent) {
+          if (!homeState.isLoading) {
+            BlocProvider.of<HomeBloc>(context).add(const HomeLoadPostsEvent());
+          }
+        }
+      },
+    );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    _scrollController.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
+        homeState = state;
         if (state.postsState == RequestState.loading) {
-          return const Center(
-            child: DefaultProgressIndicator(
-              size: 60.0,
-            ),
-          );
+          return const PostsLoadingWidget();
         }
         return Column(
           children: [
@@ -52,10 +82,23 @@ class PostsScreen extends StatelessWidget {
                 ],
               ),
             ),
+            if (state.isLoading)
+              const Column(
+                children: [
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                  DefaultProgressIndicator(),
+                  SizedBox(
+                    height: 5.0,
+                  ),
+                ],
+              ),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20.0),
                 child: ListView.separated(
+                  controller: _scrollController,
                   physics: DefaultScrollPhysics.bouncing(),
                   itemBuilder: (context, index) {
                     int itemIndex = state.posts.length - 1 - index;

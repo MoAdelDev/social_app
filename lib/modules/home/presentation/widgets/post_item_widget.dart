@@ -1,7 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:social_app/core/components/default_shimmer.dart';
 import 'package:social_app/modules/authentication/domain/entities/user.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 
@@ -20,6 +20,7 @@ class PostItemWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -51,9 +52,6 @@ class PostItemWidget extends StatelessWidget {
                           )
                         : CachedNetworkImage(
                             imageUrl: user.photo,
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
                             errorWidget: (context, url, error) =>
                                 const DefaultProgressIndicator(),
                             placeholder: (
@@ -61,6 +59,17 @@ class PostItemWidget extends StatelessWidget {
                               url,
                             ) =>
                                 const DefaultProgressIndicator(),
+                            imageBuilder: (context, imageProvider) {
+                              return Container(
+                                width: double.infinity,
+                                height: double.infinity,
+                                decoration: BoxDecoration(
+                                    image: DecorationImage(
+                                  image: imageProvider,
+                                  fit: BoxFit.cover,
+                                )),
+                              );
+                            },
                           ),
                   ),
                 ),
@@ -79,17 +88,27 @@ class PostItemWidget extends StatelessWidget {
                           .bodySmall
                           ?.copyWith(fontFamily: AppFonts.bold),
                     ),
-                    const SizedBox(height: 3.0,),
-
+                    const SizedBox(
+                      height: 3.0,
+                    ),
                     Row(
                       children: [
-                        SvgPicture.asset('assets/icons/world.svg', width: 23.0, height: 23.0,),
-                        const SizedBox(width: 3.0,),
+                        SvgPicture.asset(
+                          'assets/icons/world.svg',
+                          width: 23.0,
+                          height: 23.0,
+                        ),
+                        const SizedBox(
+                          width: 3.0,
+                        ),
                         Text(
                           post.date,
-                          style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                              fontFamily: AppFonts.regular,
-                              color: Colors.grey[700]),
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodySmall
+                              ?.copyWith(
+                                  fontFamily: AppFonts.regular,
+                                  color: Colors.grey[700]),
                         ),
                       ],
                     ),
@@ -119,13 +138,27 @@ class PostItemWidget extends StatelessWidget {
             children: [
               CachedNetworkImage(
                 imageUrl: post.image,
+                height: 270.53,
+                fit: BoxFit.cover,
+                errorWidget: (context, url, error) => DefaultShimmer(
+                  child: Container(
+                    height: 270.0,
+                    color: Colors.grey,
+                  ),
+                ),
+                placeholder: (context, url) => DefaultShimmer(
+                  child: Container(
+                    height: 270.0,
+                    color: Colors.grey,
+                  ),
+                ),
                 imageBuilder: (context, imageProvider) {
                   return Container(
                     height: 270.53,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30.28),
                       image: DecorationImage(
-                        image: NetworkImage(post.image),
+                        image: imageProvider,
                         fit: BoxFit.cover,
                       ),
                     ),
