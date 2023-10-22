@@ -130,6 +130,7 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
           .collection('posts')
           .doc(post.id)
           .collection('likes')
+          .where('like', isEqualTo: true)
           .get()
           .catchError((error) {
         throw ServerException(ErrorMessageModel(error.toString()));

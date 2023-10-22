@@ -30,7 +30,7 @@ class _PostsScreenState extends State<PostsScreen> {
     _scrollController.addListener(
       () {
         if (_scrollController.position.pixels ==
-            _scrollController.position.minScrollExtent) {
+             _scrollController.position.minScrollExtent) {
           if (!homeState.isLoading) {
             BlocProvider.of<HomeBloc>(context).add(const HomeLoadPostsEvent());
           }

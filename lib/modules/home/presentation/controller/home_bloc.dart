@@ -212,10 +212,19 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   FutureOr<void> _likePost(
       HomeLikePostEvent event, Emitter<HomeState> emit) async {
     Map<String, bool> isLikedMap = state.isLikedMap;
+    Map<String, int> postsLikes = state.postsLikes;
     bool isLiked = !state.isLikedMap[event.postId]!;
+    if (isLiked) {
+      postsLikes[event.postId] = postsLikes[event.postId]! + 1;
+    } else {
+      postsLikes[event.postId] = postsLikes[event.postId]! - 1;
+    }
     isLikedMap[event.postId] = isLiked;
     emit(state.copyWith(
-        likeState: RequestState.loading, isLikedMap: isLikedMap));
+      likeState: RequestState.loading,
+      isLikedMap: isLikedMap,
+      postsLikes: postsLikes,
+    ));
     final result = await likePostUseCase(
       postId: event.postId,
       uid: FirebaseAuth.instance.currentUser?.uid ?? '',
@@ -223,12 +232,19 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     );
     result.fold((error) {
       Map<String, bool> isLikedMap = state.isLikedMap;
+      Map<String, int> postsLikes = state.postsLikes;
       bool isLiked = !state.isLikedMap[event.postId]!;
+      if (isLiked) {
+        postsLikes[event.postId] = postsLikes[event.postId]! + 1;
+      } else {
+        postsLikes[event.postId] = postsLikes[event.postId]! - 1;
+      }
       isLikedMap[event.postId] = isLiked;
       emit(state.copyWith(
         likeState: RequestState.error,
         likeError: error.message,
         isLikedMap: isLikedMap,
+        postsLikes: postsLikes,
       ));
     }, (_) {
       add(const HomeGetPostsEvent());
