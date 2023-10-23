@@ -63,3 +63,11 @@ class HomeLikePostEvent extends BaseHomeEvent {
 
   const HomeLikePostEvent(this.postId);
 }
+
+class HomeDeletePostEvent extends BaseHomeEvent {
+  final String postId;
+
+  const HomeDeletePostEvent(
+    this.postId,
+  );
+}

@@ -20,6 +20,9 @@ class HomeState extends Equatable {
   final Map<String, user_entity.User> postsUsers;
   final Map<String, int> postsLikes;
 
+  final String deletePostError;
+  final RequestState deletePostState;
+
   const HomeState({
     this.currentIndex = 0,
     this.imagePicked,
@@ -40,6 +43,8 @@ class HomeState extends Equatable {
     this.likeError = '',
     this.isLikedMap = const {},
     this.postsLikes = const {},
+    this.deletePostState = RequestState.nothing,
+    this.deletePostError = '',
   });
 
   HomeState copyWith({
@@ -57,6 +62,8 @@ class HomeState extends Equatable {
     String? likeError,
     Map<String, bool>? isLikedMap,
     Map<String, int>? postsLikes,
+    String? deletePostError,
+    RequestState? deletePostState,
   }) =>
       HomeState(
         currentIndex: currentIndex ?? this.currentIndex,
@@ -73,6 +80,8 @@ class HomeState extends Equatable {
         likeError: likeError ?? this.likeError,
         isLikedMap: isLikedMap ?? this.isLikedMap,
         postsLikes: postsLikes ?? this.postsLikes,
+        deletePostError: deletePostError ?? this.deletePostError,
+        deletePostState: deletePostState ?? this.deletePostState,
       );
 
   @override
@@ -91,5 +100,7 @@ class HomeState extends Equatable {
         postsUsers,
         isLikedMap,
         postsLikes,
+        deletePostError,
+        deletePostState,
       ];
 }

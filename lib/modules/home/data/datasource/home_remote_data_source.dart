@@ -25,6 +25,8 @@ abstract class BaseHomeRemoteDataSource {
 
   Future<void> likePost(
       {required String postId, required String uid, required bool isLiked});
+
+  Future<void> deletePost({required String postId});
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
@@ -138,5 +140,16 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
       likesMap.addAll({post.id: result.docs.length});
     }
     return likesMap;
+  }
+
+  @override
+  Future<void> deletePost({required String postId}) async {
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .delete()
+        .catchError((error) {
+      throw ServerException(ErrorMessageModel(error.toString()));
+    });
   }
 }

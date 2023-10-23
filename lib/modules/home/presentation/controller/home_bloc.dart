@@ -13,7 +13,9 @@ import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/utils/app_toast.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/generated/l10n.dart';
+import 'package:social_app/main.dart';
 import 'package:social_app/modules/home/data/models/post_model.dart';
+import 'package:social_app/modules/home/domain/usecases/delete_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
@@ -39,6 +41,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final PublishPostUseCase publishPostUseCase;
   final LikePostUseCase likePostUseCase;
   final GetPostsLikesUseCase getPostsLikesUseCase;
+  final DeletePostUseCase deletePostUseCase;
 
   HomeBloc(
     this.getPostsUseCase,
@@ -47,6 +50,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     this.likePostUseCase,
     this.getIsLikedPostUseCase,
     this.getPostsLikesUseCase,
+    this.deletePostUseCase,
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
@@ -57,6 +61,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     on<HomeLikePostEvent>(_likePost);
     on<HomeGetIsLikedPostEvent>(_getIsLikedPost);
     on<HomeGetPostsLikesEvent>(_getPostsLikes);
+    on<HomeDeletePostEvent>(_deletePost);
   }
 
   FutureOr<void> _changeBottomNavIndex(
@@ -250,6 +255,30 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       add(const HomeGetPostsEvent());
       emit(state.copyWith(
         likeState: RequestState.success,
+      ));
+    });
+  }
+
+  FutureOr<void> _deletePost(
+      HomeDeletePostEvent event, Emitter<HomeState> emit) async {
+    String deleteSuccess = MyApp.isArabic ? "تم مسح المنشور بنجاح" : "The post delete successfully";
+    String deleteFailed = MyApp.isArabic ? "فشل في مسح المنشور. حاول مرةً أخرى" : "Failed to delete the post. Try again";
+    emit(state.copyWith(deletePostState: RequestState.loading));
+    final result = await deletePostUseCase(postId: event.postId);
+    result.fold((failure) {
+      AppToast.showToast(
+          msg: deleteFailed,
+          state: RequestState.error);
+      emit(state.copyWith(
+          deletePostState: RequestState.error,
+          deletePostError: failure.message));
+    }, (_) {
+      add(const HomeLoadPostsEvent());
+      AppToast.showToast(
+          msg: deleteSuccess,
+          state: RequestState.success);
+      emit(state.copyWith(
+        deletePostState: RequestState.success,
       ));
     });
   }

@@ -14,5 +14,12 @@
   "signUp" : "Sign up",
   "explore" : "Explore",
   "postSuccessMsg": "The post has been published successfully",
-  "loginSuccessMsg" : "You have been logged in successfully"
+  "loginSuccessMsg" : "You have been logged in successfully",
+  "deletePostSuccessMsg" : "The post delete successfully",
+  "deletePostErrorMsg" : "Failed to delete the post. Try again",
+  "deletePostTitle" : "Delete Post",
+  "editPostTitle" : "Edit Post",
+  "deletePostMsg" : "Are you want to permanently remove this post ?",
+  "cancelTitle" : "Cancel",
+  "deleteTitle" : "Delete"
 }

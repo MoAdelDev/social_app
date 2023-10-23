@@ -22,6 +22,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cancelTitle": MessageLookupByLibrary.simpleMessage("إلغاء"),
+        "deletePostErrorMsg": MessageLookupByLibrary.simpleMessage(
+            "فشل في مسح المنشور. حاول مرةً أخرى"),
+        "deletePostMsg": MessageLookupByLibrary.simpleMessage(
+            "هل تريد إزالة هذه المنشور نهائيًا؟"),
+        "deletePostSuccessMsg":
+            MessageLookupByLibrary.simpleMessage("تم مسح المنشور بنجاح"),
+        "deletePostTitle": MessageLookupByLibrary.simpleMessage("مسح المنشور"),
+        "deleteTitle": MessageLookupByLibrary.simpleMessage("مسح"),
+        "editPostTitle": MessageLookupByLibrary.simpleMessage("تعديل المنشور"),
         "emailInputError":
             MessageLookupByLibrary.simpleMessage("أدخل البريد الإلكتروني"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("البريد الإلكتروني"),

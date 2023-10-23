@@ -22,6 +22,16 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cancelTitle": MessageLookupByLibrary.simpleMessage("Cancel"),
+        "deletePostErrorMsg": MessageLookupByLibrary.simpleMessage(
+            "Failed to delete the post. Try again"),
+        "deletePostMsg": MessageLookupByLibrary.simpleMessage(
+            "Are you want to permanently remove this post ?"),
+        "deletePostSuccessMsg": MessageLookupByLibrary.simpleMessage(
+            "The post delete successfully"),
+        "deletePostTitle": MessageLookupByLibrary.simpleMessage("Delete Post"),
+        "deleteTitle": MessageLookupByLibrary.simpleMessage("Delete"),
+        "editPostTitle": MessageLookupByLibrary.simpleMessage("Edit Post"),
         "emailInputError":
             MessageLookupByLibrary.simpleMessage("Enter Email Address"),
         "emailLabel": MessageLookupByLibrary.simpleMessage("Email"),

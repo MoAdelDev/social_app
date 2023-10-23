@@ -209,6 +209,76 @@ class S {
       args: [],
     );
   }
+
+  /// `The post delete successfully`
+  String get deletePostSuccessMsg {
+    return Intl.message(
+      'The post delete successfully',
+      name: 'deletePostSuccessMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Failed to delete the post. Try again`
+  String get deletePostErrorMsg {
+    return Intl.message(
+      'Failed to delete the post. Try again',
+      name: 'deletePostErrorMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete Post`
+  String get deletePostTitle {
+    return Intl.message(
+      'Delete Post',
+      name: 'deletePostTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Edit Post`
+  String get editPostTitle {
+    return Intl.message(
+      'Edit Post',
+      name: 'editPostTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Are you want to permanently remove this post ?`
+  String get deletePostMsg {
+    return Intl.message(
+      'Are you want to permanently remove this post ?',
+      name: 'deletePostMsg',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Cancel`
+  String get cancelTitle {
+    return Intl.message(
+      'Cancel',
+      name: 'cancelTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Delete`
+  String get deleteTitle {
+    return Intl.message(
+      'Delete',
+      name: 'deleteTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -14,5 +14,12 @@
   "signUp": "تسجيل",
   "explore": "إستكشف",
   "postSuccessMsg": "تم نشر المنشور بنجاح",
-  "loginSuccessMsg" : "تم تسجيل الدخول بنجاح"
+  "loginSuccessMsg" : "تم تسجيل الدخول بنجاح",
+  "deletePostSuccessMsg" : "تم مسح المنشور بنجاح",
+  "deletePostErrorMsg" : "فشل في مسح المنشور. حاول مرةً أخرى",
+  "deletePostTitle" : "مسح المنشور",
+  "editPostTitle" : "تعديل المنشور",
+  "deletePostMsg" : "هل تريد إزالة هذه المنشور نهائيًا؟",
+  "cancelTitle" : "إلغاء",
+  "deleteTitle" : "مسح"
 }
