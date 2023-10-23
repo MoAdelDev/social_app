@@ -17,6 +17,18 @@ class HomePickImageFromCameraOrGalleryEvent extends BaseHomeEvent {
   const HomePickImageFromCameraOrGalleryEvent(this.isCamera, this.context);
 }
 
+class HomeModifyImageFromCameraOrGalleryEvent extends BaseHomeEvent {
+  final bool isCamera;
+  final BuildContext context;
+
+  const HomeModifyImageFromCameraOrGalleryEvent(this.isCamera, this.context);
+}
+
+class HomeRemoveImagePickedEvent extends BaseHomeEvent {
+  const HomeRemoveImagePickedEvent();
+}
+
+
 class HomePublishPostEvent extends BaseHomeEvent {
   final File imageFile;
   final String captionText;

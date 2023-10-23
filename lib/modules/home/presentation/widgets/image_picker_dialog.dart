@@ -4,7 +4,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../controller/home_bloc.dart';
 
 class ImagePickerDialog extends StatelessWidget {
-  const ImagePickerDialog({super.key});
+  final bool isModify;
+
+  const ImagePickerDialog({super.key, required this.isModify});
 
   @override
   Widget build(BuildContext context) {
@@ -24,12 +26,21 @@ class ImagePickerDialog extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () {
-                context.read<HomeBloc>().add(
-                      HomePickImageFromCameraOrGalleryEvent(
-                        true,
-                        context,
-                      ),
-                    );
+                if (isModify) {
+                  context.read<HomeBloc>().add(
+                        HomeModifyImageFromCameraOrGalleryEvent(
+                          true,
+                          context,
+                        ),
+                      );
+                } else {
+                  context.read<HomeBloc>().add(
+                        HomePickImageFromCameraOrGalleryEvent(
+                          true,
+                          context,
+                        ),
+                      );
+                }
               },
               child: Text(
                 'Camera',

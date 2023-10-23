@@ -35,7 +35,9 @@ class _HomeScreenState extends State<HomeScreen> {
               showDialog(
                 context: context,
                 builder: (context) {
-                  return const ImagePickerDialog();
+                  return const ImagePickerDialog(
+                    isModify: false,
+                  );
                 },
               );
             },

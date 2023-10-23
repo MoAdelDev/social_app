@@ -8,6 +8,8 @@ import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
 
+import '../../../../generated/l10n.dart';
+
 class PublishPostScreen extends StatelessWidget {
   final ScreenArguments args;
   final TextEditingController controller = TextEditingController();
@@ -44,7 +46,8 @@ class PublishPostScreen extends StatelessWidget {
                           return DefaultAppBarIcon(
                             onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
-                              context.read<HomeBloc>().add(HomePublishPostEvent(args.imageFile, controller.text, context));
+                              context.read<HomeBloc>().add(HomePublishPostEvent(
+                                  args.imageFile, controller.text, context));
                             },
                             child: SvgPicture.asset(
                               'assets/icons/publish.svg',
@@ -91,7 +94,7 @@ class PublishPostScreen extends StatelessWidget {
                                 controller: controller,
                                 decoration: InputDecoration(
                                   border: InputBorder.none,
-                                  hintText: 'Write a caption ...',
+                                  hintText: S.of(context).writeCaptionTitle,
                                   hintStyle:
                                       Theme.of(context).textTheme.bodyMedium,
                                 ),

@@ -279,6 +279,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Modify`
+  String get modifyTitle {
+    return Intl.message(
+      'Modify',
+      name: 'modifyTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Write a caption ...`
+  String get writeCaptionTitle {
+    return Intl.message(
+      'Write a caption ...',
+      name: 'writeCaptionTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

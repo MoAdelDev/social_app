@@ -41,6 +41,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginSuccessMsg":
             MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),
+        "modifyTitle": MessageLookupByLibrary.simpleMessage("تعديل"),
         "nameInputError": MessageLookupByLibrary.simpleMessage("أدخل الإسم"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("الإسم"),
         "passwordInputError":
@@ -54,6 +55,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "registerQuestion":
             MessageLookupByLibrary.simpleMessage("أليس لديك حساب ؟"),
-        "signUp": MessageLookupByLibrary.simpleMessage("تسجيل")
+        "signUp": MessageLookupByLibrary.simpleMessage("تسجيل"),
+        "writeCaptionTitle":
+            MessageLookupByLibrary.simpleMessage("أكتب شيئاً ...")
       };
 }

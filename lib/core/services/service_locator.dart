@@ -44,6 +44,5 @@ class ServiceLocator {
     sl.registerLazySingleton<LikePostUseCase>(() => LikePostUseCase(sl()));
     sl.registerLazySingleton<GetPostsLikesUseCase>(() => GetPostsLikesUseCase(sl()));
     sl.registerLazySingleton<DeletePostUseCase>(() => DeletePostUseCase(sl()));
-
   }
 }

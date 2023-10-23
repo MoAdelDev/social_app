@@ -54,6 +54,8 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
+    on<HomeModifyImageFromCameraOrGalleryEvent>(_modifyImage);
+    on<HomeRemoveImagePickedEvent>(_removeImage);
     on<HomeGetPostsEvent>(_getPosts);
     on<HomeGetPostsUsersEvent>(_getPostsUsers);
     on<HomePublishPostEvent>(_publishPost);
@@ -90,6 +92,22 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
             arguments: screenArguments,
           );
         }
+      }
+    }
+  }
+
+  FutureOr<void> _modifyImage(HomeModifyImageFromCameraOrGalleryEvent event,
+      Emitter<HomeState> emit) async {
+    if (await _checkPermission(event.context)) {
+      XFile? imagePicked;
+      if (event.isCamera) {
+        imagePicked = await ImagePicker().pickImage(source: ImageSource.camera);
+      } else {
+        imagePicked =
+            await ImagePicker().pickImage(source: ImageSource.gallery);
+      }
+      if (imagePicked != null) {
+        emit(state.copyWith(imagePicked: File(imagePicked.path)));
       }
     }
   }
@@ -261,25 +279,30 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
 
   FutureOr<void> _deletePost(
       HomeDeletePostEvent event, Emitter<HomeState> emit) async {
-    String deleteSuccess = MyApp.isArabic ? "تم مسح المنشور بنجاح" : "The post delete successfully";
-    String deleteFailed = MyApp.isArabic ? "فشل في مسح المنشور. حاول مرةً أخرى" : "Failed to delete the post. Try again";
+    String deleteSuccess = MyApp.isArabic
+        ? "تم مسح المنشور بنجاح"
+        : "The post delete successfully";
+    String deleteFailed = MyApp.isArabic
+        ? "فشل في مسح المنشور. حاول مرةً أخرى"
+        : "Failed to delete the post. Try again";
     emit(state.copyWith(deletePostState: RequestState.loading));
     final result = await deletePostUseCase(postId: event.postId);
     result.fold((failure) {
-      AppToast.showToast(
-          msg: deleteFailed,
-          state: RequestState.error);
+      AppToast.showToast(msg: deleteFailed, state: RequestState.error);
       emit(state.copyWith(
           deletePostState: RequestState.error,
           deletePostError: failure.message));
     }, (_) {
       add(const HomeLoadPostsEvent());
-      AppToast.showToast(
-          msg: deleteSuccess,
-          state: RequestState.success);
+      AppToast.showToast(msg: deleteSuccess, state: RequestState.success);
       emit(state.copyWith(
         deletePostState: RequestState.success,
       ));
     });
+  }
+
+  FutureOr<void> _removeImage(HomeRemoveImagePickedEvent event, Emitter<HomeState> emit) {
+    emit(state.copyWith(imagePicked: File('')));
+    print(state.imagePicked?.path??"Image is Null");
   }
 }

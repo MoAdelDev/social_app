@@ -35,19 +35,25 @@ class PostItemWidget extends StatelessWidget {
           const SizedBox(
             height: 20.0,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: Text(
-              post.captionText,
-              style: Theme.of(context)
-                  .textTheme
-                  .bodySmall
-                  ?.copyWith(fontFamily: AppFonts.semiBold),
+          if (post.captionText.isNotEmpty || post.captionText != '')
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15.0),
+                  child: Text(
+                    post.captionText,
+                    style: Theme.of(context)
+                        .textTheme
+                        .bodySmall
+                        ?.copyWith(fontFamily: AppFonts.semiBold),
+                  ),
+                ),
+                const SizedBox(
+                  height: 10.0,
+                ),
+              ],
             ),
-          ),
-          const SizedBox(
-            height: 10.0,
-          ),
           Stack(
             alignment: AlignmentDirectional.bottomCenter,
             children: [

@@ -21,5 +21,7 @@
   "editPostTitle" : "Edit Post",
   "deletePostMsg" : "Are you want to permanently remove this post ?",
   "cancelTitle" : "Cancel",
-  "deleteTitle" : "Delete"
+  "deleteTitle" : "Delete",
+  "modifyTitle" : "Modify",
+  "writeCaptionTitle" : "Write a caption ..."
 }

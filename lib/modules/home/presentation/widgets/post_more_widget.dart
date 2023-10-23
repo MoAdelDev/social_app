@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:social_app/core/router/app_router.dart';
+import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/style/fonts.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 import 'package:social_app/modules/home/presentation/widgets/delete_post_dialog.dart';
@@ -43,11 +45,22 @@ class PostMoreWidget extends StatelessWidget {
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 20, vertical: 20.0),
+                      horizontal: 20,
+                      vertical: 20.0,
+                    ),
                     child: Column(
                       children: [
                         TextButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            Navigator.pop(context);
+                            ScreenArguments args =
+                                ScreenArguments.toModifyPostScreen(post: post);
+                            Navigator.pushNamed(
+                              context,
+                              AppRouter.kModifyPostScreen,
+                              arguments: args,
+                            );
+                          },
                           child: const Row(
                             children: [
                               Text(
@@ -74,7 +87,9 @@ class PostMoreWidget extends StatelessWidget {
                             showDialog(
                               context: context,
                               builder: (context) {
-                                return  DeletePostDialog(post: post,);
+                                return DeletePostDialog(
+                                  post: post,
+                                );
                               },
                             );
                           },

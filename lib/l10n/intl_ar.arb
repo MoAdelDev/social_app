@@ -21,5 +21,8 @@
   "editPostTitle" : "تعديل المنشور",
   "deletePostMsg" : "هل تريد إزالة هذه المنشور نهائيًا؟",
   "cancelTitle" : "إلغاء",
-  "deleteTitle" : "مسح"
+  "deleteTitle" : "مسح",
+  "modifyTitle" : "تعديل",
+  "writeCaptionTitle" : "أكتب شيئاً ..."
+
 }
