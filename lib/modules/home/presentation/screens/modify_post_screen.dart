@@ -11,8 +11,8 @@ import 'package:social_app/core/components/default_shimmer.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/style/fonts.dart';
 import 'package:social_app/core/utils/enums.dart';
-import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
-
+import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
+import 'package:social_app/modules/home/presentation/controller/modify_post/modify_post_bloc.dart';
 import '../../../../generated/l10n.dart';
 import '../widgets/image_picker_dialog.dart';
 
@@ -30,16 +30,23 @@ class ModifyPostScreen extends StatefulWidget {
 
 class _ModifyPostScreenState extends State<ModifyPostScreen> {
   final TextEditingController controller = TextEditingController();
+
   @override
   void initState() {
     super.initState();
     controller.text = widget.args.post.captionText;
-    BlocProvider.of<HomeBloc>(context).add(const HomeRemoveImagePickedEvent());
+    BlocProvider.of<ModifyPostBloc>(context).add(const ModifyPostRemoveImagePickedEvent());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
+    return BlocConsumer<ModifyPostBloc, ModifyPostState>(
+      listener: (context, state) {
+        if (state.modifyPostState == RequestState.success) {
+          BlocProvider.of<HomeBloc>(context).add(const HomeLoadPostsEvent());
+          Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: Theme.of(context).colorScheme.background,
@@ -59,15 +66,18 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                         ),
                       ),
                       ConditionalBuilder(
-                        condition: state.publishState != RequestState.loading,
+                        condition:
+                            state.modifyPostState != RequestState.loading,
                         builder: (context) {
                           return DefaultAppBarIcon(
                             onPressed: () {
                               FocusManager.instance.primaryFocus?.unfocus();
-                              context.read<HomeBloc>().add(HomePublishPostEvent(
-                                  widget.args.imageFile,
-                                  controller.text,
-                                  context));
+                              context.read<ModifyPostBloc>().add(
+                                    ModifyPostEvent(
+                                      widget.args.post.id,
+                                      controller.text,
+                                    ),
+                                  );
                             },
                             child: SvgPicture.asset(
                               'assets/icons/edit.svg',
@@ -147,14 +157,16 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                                           Container(
                                             height: 20.0,
                                             width: double.infinity,
-                                            padding: const EdgeInsets.symmetric(
-                                                horizontal: 20.0),
+                                            padding:
+                                                const EdgeInsets.symmetric(
+                                                    horizontal: 20.0),
                                             decoration: BoxDecoration(
                                               color: const Color(0xff000000)
                                                   .withOpacity(0.4),
                                               borderRadius:
                                                   const BorderRadius.only(
-                                                bottomLeft: Radius.circular(30),
+                                                bottomLeft:
+                                                    Radius.circular(30),
                                                 bottomRight:
                                                     Radius.circular(30),
                                               ),

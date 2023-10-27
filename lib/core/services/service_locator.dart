@@ -13,6 +13,7 @@ import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecas
 import 'package:social_app/modules/home/domain/usecases/get_posts_likes_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/modify_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
 
 import '../../modules/home/domain/usecases/get_posts_users_usecase.dart';
@@ -38,11 +39,16 @@ class ServiceLocator {
     sl.registerLazySingleton<BaseHomeRepository>(() => HomeRepository(sl()));
 
     sl.registerLazySingleton<GetPostsUseCase>(() => GetPostsUseCase(sl()));
-    sl.registerLazySingleton<GetPostsUsersUseCase>(() => GetPostsUsersUseCase(sl()));
-    sl.registerLazySingleton<PublishPostUseCase>(() => PublishPostUseCase(sl()));
-    sl.registerLazySingleton<GetIsLikedPostUseCase>(() => GetIsLikedPostUseCase(sl()));
+    sl.registerLazySingleton<GetPostsUsersUseCase>(
+        () => GetPostsUsersUseCase(sl()));
+    sl.registerLazySingleton<PublishPostUseCase>(
+        () => PublishPostUseCase(sl()));
+    sl.registerLazySingleton<GetIsLikedPostUseCase>(
+        () => GetIsLikedPostUseCase(sl()));
     sl.registerLazySingleton<LikePostUseCase>(() => LikePostUseCase(sl()));
-    sl.registerLazySingleton<GetPostsLikesUseCase>(() => GetPostsLikesUseCase(sl()));
+    sl.registerLazySingleton<GetPostsLikesUseCase>(
+        () => GetPostsLikesUseCase(sl()));
     sl.registerLazySingleton<DeletePostUseCase>(() => DeletePostUseCase(sl()));
+    sl.registerLazySingleton<ModifyPostUseCase>(() => ModifyPostUseCase(sl()));
   }
 }

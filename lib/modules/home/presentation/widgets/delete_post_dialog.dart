@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
-import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
+import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
 
 import '../../../../core/style/fonts.dart';
 

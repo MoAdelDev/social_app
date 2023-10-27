@@ -8,7 +8,7 @@ import 'package:social_app/modules/authentication/domain/entities/user.dart'
 import 'package:social_app/modules/home/domain/entities/post.dart';
 import 'package:social_app/modules/home/presentation/widgets/post_user_widget.dart';
 import '../../../../core/style/fonts.dart';
-import '../controller/home_bloc.dart';
+import '../controller/home/home_bloc.dart';
 
 class PostItemWidget extends StatelessWidget {
   final Post post;

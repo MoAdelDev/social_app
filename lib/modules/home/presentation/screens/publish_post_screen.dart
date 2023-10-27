@@ -6,7 +6,7 @@ import 'package:social_app/core/components/default_app_bar_icon.dart';
 import 'package:social_app/core/components/default_progress_indicator.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/utils/enums.dart';
-import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
+import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
 
 import '../../../../generated/l10n.dart';
 

@@ -93,4 +93,18 @@ class HomeRepository extends BaseHomeRepository {
       return Left(ServerFailure(e.errorMessageModel.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> modifyPost(
+      {required String postId,
+      required String captionText,
+      required File? imageFile}) async {
+    try {
+      final result = await basePostRemoteDataSource.modifyPost(
+          postId: postId, captionText: captionText, imageFile: imageFile);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
 }

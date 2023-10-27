@@ -7,9 +7,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:social_app/core/router/app_router.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
+import 'package:social_app/core/services/check_storage_permission_service.dart';
 import 'package:social_app/core/utils/app_toast.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/generated/l10n.dart';
@@ -25,10 +25,10 @@ import 'package:social_app/modules/messages/messages_screen.dart';
 import 'package:social_app/modules/profile/profile_screen.dart';
 import 'package:social_app/modules/settings/settings_screen.dart';
 
-import '../../../authentication/domain/entities/user.dart' as user_entity;
-import '../../domain/entities/post.dart';
-import '../../domain/usecases/get_posts_likes_usecase.dart';
-import '../../domain/usecases/get_posts_users_usecase.dart';
+import '../../../../authentication/domain/entities/user.dart' as user_entity;
+import '../../../domain/entities/post.dart';
+import '../../../domain/usecases/get_posts_likes_usecase.dart';
+import '../../../domain/usecases/get_posts_users_usecase.dart';
 
 part 'home_event.dart';
 
@@ -54,8 +54,6 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
-    on<HomeModifyImageFromCameraOrGalleryEvent>(_modifyImage);
-    on<HomeRemoveImagePickedEvent>(_removeImage);
     on<HomeGetPostsEvent>(_getPosts);
     on<HomeGetPostsUsersEvent>(_getPostsUsers);
     on<HomePublishPostEvent>(_publishPost);
@@ -68,12 +66,12 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
 
   FutureOr<void> _changeBottomNavIndex(
       HomeChangeBottomNavIndexEvent event, Emitter<HomeState> emit) {
-    emit(state.copyWith(currentIndex: event.index));
+    emit(state.copyWith(currentIndex: event.index, ));
   }
 
   FutureOr<void> _pickImage(HomePickImageFromCameraOrGalleryEvent event,
       Emitter<HomeState> emit) async {
-    if (await _checkPermission(event.context)) {
+    if (await CheckStoragePermissionStorage.checkPermission(event.context)) {
       XFile? imagePicked;
       if (event.isCamera) {
         imagePicked = await ImagePicker().pickImage(source: ImageSource.camera);
@@ -95,50 +93,6 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       }
     }
   }
-
-  FutureOr<void> _modifyImage(HomeModifyImageFromCameraOrGalleryEvent event,
-      Emitter<HomeState> emit) async {
-    if (await _checkPermission(event.context)) {
-      XFile? imagePicked;
-      if (event.isCamera) {
-        imagePicked = await ImagePicker().pickImage(source: ImageSource.camera);
-      } else {
-        imagePicked =
-            await ImagePicker().pickImage(source: ImageSource.gallery);
-      }
-      if (imagePicked != null) {
-        emit(state.copyWith(imagePicked: File(imagePicked.path)));
-      }
-    }
-  }
-
-  Future<bool> _checkPermission(BuildContext context) async {
-    FocusScope.of(context).requestFocus(FocusNode());
-    Map<Permission, PermissionStatus> statues = await [
-      Permission.camera,
-      Permission.storage,
-      Permission.photos
-    ].request();
-
-    PermissionStatus? statusCamera = statues[Permission.camera];
-    PermissionStatus? statusStorage = statues[Permission.storage];
-    PermissionStatus? statusPhotos = statues[Permission.photos];
-    bool isGranted = statusCamera == PermissionStatus.granted &&
-        statusStorage == PermissionStatus.granted &&
-        statusPhotos == PermissionStatus.granted;
-    if (isGranted) {
-      return true;
-    }
-    bool isPermanentlyDenied =
-        statusCamera == PermissionStatus.permanentlyDenied ||
-            statusStorage == PermissionStatus.permanentlyDenied ||
-            statusPhotos == PermissionStatus.permanentlyDenied;
-    if (isPermanentlyDenied) {
-      return false;
-    }
-    return true;
-  }
-
   FutureOr<void> _publishPost(
       HomePublishPostEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(publishState: RequestState.loading));
@@ -301,8 +255,5 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     });
   }
 
-  FutureOr<void> _removeImage(HomeRemoveImagePickedEvent event, Emitter<HomeState> emit) {
-    emit(state.copyWith(imagePicked: File('')));
-    print(state.imagePicked?.path??"Image is Null");
-  }
+
 }

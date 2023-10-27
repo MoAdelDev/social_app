@@ -28,4 +28,9 @@ abstract class BaseHomeRepository {
   Future<Either<Failure, void>> deletePost({
     required String postId,
   });
+  Future<Either<Failure, void>> modifyPost({
+    required String postId,
+    required String captionText,
+    required File? imageFile,
+  });
 }

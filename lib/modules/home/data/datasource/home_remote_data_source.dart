@@ -27,6 +27,11 @@ abstract class BaseHomeRemoteDataSource {
       {required String postId, required String uid, required bool isLiked});
 
   Future<void> deletePost({required String postId});
+
+  Future<void> modifyPost(
+      {required String postId,
+      required String captionText,
+      required File? imageFile});
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
@@ -148,6 +153,36 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
         .collection('posts')
         .doc(postId)
         .delete()
+        .catchError((error) {
+      throw ServerException(ErrorMessageModel(error.toString()));
+    });
+  }
+
+  @override
+  Future<void> modifyPost({
+    required String postId,
+    required String captionText,
+    required File? imageFile,
+  }) async {
+    String imageUrl = '';
+    if (imageFile != null) {
+      final imageResult = await FirebaseStorage.instance
+          .ref('posts')
+          .child(postId)
+          .putFile(imageFile);
+      imageUrl = await imageResult.ref.getDownloadURL();
+    }
+    Map<String, dynamic> dataWithoutImage = {
+      'captionText': captionText,
+    };
+    Map<String, dynamic> dataWithImage = {
+      'captionText': captionText,
+      'image': imageUrl,
+    };
+    await FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postId)
+        .update(imageUrl == '' ? dataWithoutImage : dataWithImage)
         .catchError((error) {
       throw ServerException(ErrorMessageModel(error.toString()));
     });

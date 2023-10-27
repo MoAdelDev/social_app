@@ -6,7 +6,7 @@ import 'package:social_app/core/components/default_scroll_physics.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
-import 'package:social_app/modules/home/presentation/controller/home_bloc.dart';
+import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
 import 'package:social_app/modules/home/presentation/widgets/post_item_widget.dart';
 import 'package:social_app/modules/home/presentation/widgets/posts_loading_widget.dart';
 
