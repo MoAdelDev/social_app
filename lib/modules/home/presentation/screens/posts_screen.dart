@@ -50,7 +50,7 @@ class _PostsScreenState extends State<PostsScreen> {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         homeState = state;
-        if (state.postsState == RequestState.loading) {
+        if (state.postsState == RequestState.loading || state.userState == RequestState.loading) {
           return const PostsLoadingWidget();
         }
         return Column(
@@ -63,9 +63,9 @@ class _PostsScreenState extends State<PostsScreen> {
                 children: [
                   DefaultAppBarIcon(
                     onPressed: () {},
-                    child: const Icon(
+                    child:  Icon(
                       Icons.search_outlined,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                   Text(
@@ -74,9 +74,9 @@ class _PostsScreenState extends State<PostsScreen> {
                   ),
                   DefaultAppBarIcon(
                     onPressed: () {},
-                    child: const Icon(
+                    child:  Icon(
                       Icons.notifications,
-                      color: Colors.black,
+                      color: Theme.of(context).colorScheme.onBackground,
                     ),
                   ),
                 ],
@@ -96,7 +96,7 @@ class _PostsScreenState extends State<PostsScreen> {
               ),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20.0),
+                padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0),
                 child: ListView.separated(
                   controller: _scrollController,
                   physics: DefaultScrollPhysics.bouncing(),

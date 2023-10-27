@@ -3,6 +3,7 @@ import 'package:social_app/core/router/app_router.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/style/fonts.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
+import 'package:social_app/modules/home/presentation/widgets/bottom_sheet_divider.dart';
 import 'package:social_app/modules/home/presentation/widgets/delete_post_dialog.dart';
 
 class PostMoreWidget extends StatelessWidget {
@@ -35,14 +36,7 @@ class PostMoreWidget extends StatelessWidget {
                   const SizedBox(
                     height: 10.0,
                   ),
-                  const SizedBox(
-                    width: 100,
-                    child: Divider(
-                      color: Colors.white,
-                      thickness: 4,
-                      height: 5,
-                    ),
-                  ),
+                  const BottomSheetDivider(),
                   Padding(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 20,

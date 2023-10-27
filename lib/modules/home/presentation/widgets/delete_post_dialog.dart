@@ -16,7 +16,7 @@ class DeletePostDialog extends StatelessWidget {
     return BlocBuilder<HomeBloc, HomeState>(
       builder: (context, state) {
         return AlertDialog(
-          backgroundColor: Theme.of(context).colorScheme.background,
+          backgroundColor: Theme.of(context).colorScheme.surface,
           elevation: 0.0,
           titlePadding:
               const EdgeInsets.symmetric(horizontal: 10.0, vertical: 15.0),

@@ -10,6 +10,10 @@ class HomeChangeBottomNavIndexEvent extends BaseHomeEvent {
   HomeChangeBottomNavIndexEvent(this.index);
 }
 
+class HomeGetUserEvent extends BaseHomeEvent {
+  const HomeGetUserEvent();
+}
+
 class HomePickImageFromCameraOrGalleryEvent extends BaseHomeEvent {
   final bool isCamera;
   final BuildContext context;

@@ -15,9 +15,8 @@ class AppThemes {
           backgroundColor: AppColorLight.background,
           elevation: 0.0,
           systemOverlayStyle: SystemUiOverlayStyle(
-            statusBarColor: AppColorLight.primary,
-            statusBarBrightness: Brightness.light
-          ),
+              statusBarColor: AppColorLight.primary,
+              statusBarBrightness: Brightness.light),
         ),
         colorScheme: const ColorScheme(
           primary: AppColorLight.primary,
@@ -83,17 +82,18 @@ class AppThemes {
 
   static ThemeData darkTheme() => ThemeData(
         appBarTheme: const AppBarTheme(
-            centerTitle: true,
-            backgroundColor: AppColorDark.background,
-            titleTextStyle: TextStyle(
-              fontSize: 25.0,
-              fontFamily: AppFonts.semiBold,
-              color: AppColorDark.onBackground,
-            ),
-            elevation: 0.0,
-            systemOverlayStyle:
-                SystemUiOverlayStyle(statusBarColor: AppColorDark.primary)),
-        colorScheme: const ColorScheme(
+          centerTitle: true,
+          backgroundColor: AppColorDark.background,
+          titleTextStyle: TextStyle(
+            fontSize: 25.0,
+            fontFamily: AppFonts.semiBold,
+            color: AppColorDark.onBackground,
+          ),
+          elevation: 0.0,
+          systemOverlayStyle:
+              SystemUiOverlayStyle(statusBarColor: AppColorDark.primary),
+        ),
+        colorScheme: ColorScheme(
           primary: AppColorDark.primary,
           background: AppColorDark.background,
           secondary: AppColorDark.secondary,

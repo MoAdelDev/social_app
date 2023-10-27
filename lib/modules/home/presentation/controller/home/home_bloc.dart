@@ -19,6 +19,7 @@ import 'package:social_app/modules/home/domain/usecases/delete_post_usecase.dart
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_saved_posts_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_user_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/save_post_usecase.dart';
@@ -46,6 +47,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final DeletePostUseCase deletePostUseCase;
   final SavePostUseCase savePostUseCase;
   final GetSavedPostsUseCase getSavedPostsUseCase;
+  final GetUserUseCase getUserUseCase;
 
   HomeBloc(
     this.getPostsUseCase,
@@ -57,8 +59,10 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     this.deletePostUseCase,
     this.savePostUseCase,
     this.getSavedPostsUseCase,
+    this.getUserUseCase,
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
+    on<HomeGetUserEvent>(_getUser);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
     on<HomeGetPostsEvent>(_getPosts);
     on<HomeGetPostsUsersEvent>(_getPostsUsers);
@@ -309,6 +313,20 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       emit(state.copyWith(
         saveState: RequestState.success,
       ));
+    });
+  }
+
+  FutureOr<void> _getUser(
+      HomeGetUserEvent event, Emitter<HomeState> emit) async {
+    emit(state.copyWith(userState: RequestState.loading));
+    final result =
+        await getUserUseCase(uid: FirebaseAuth.instance.currentUser?.uid ?? '');
+    result.fold((error) {
+      emit(state.copyWith(
+          userState: RequestState.error, userError: error.message));
+    }, (user) {
+      MyApp.user = user;
+      emit(state.copyWith(userState: RequestState.success, user: user));
     });
   }
 }

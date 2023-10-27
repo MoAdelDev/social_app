@@ -5,6 +5,11 @@ import 'package:social_app/modules/authentication/domain/repository/base_auth_re
 import 'package:social_app/modules/authentication/domain/usecase/add_user_usecase.dart';
 import 'package:social_app/modules/authentication/domain/usecase/login_usecase.dart';
 import 'package:social_app/modules/authentication/domain/usecase/register_usecase.dart';
+import 'package:social_app/modules/comments/data/datasource/comments_remote_datasource.dart';
+import 'package:social_app/modules/comments/data/repository/comments_repository.dart';
+import 'package:social_app/modules/comments/domain/repository/base_comments_repository.dart';
+import 'package:social_app/modules/comments/domain/usecases/add_comment_usecase.dart';
+import 'package:social_app/modules/comments/domain/usecases/get_comments_usecase.dart';
 import 'package:social_app/modules/home/data/datasource/home_remote_data_source.dart';
 import 'package:social_app/modules/home/data/repository/home_repository.dart';
 import 'package:social_app/modules/home/domain/repository/base_home_repository.dart';
@@ -13,6 +18,7 @@ import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecas
 import 'package:social_app/modules/home/domain/usecases/get_posts_likes_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_saved_posts_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_user_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/modify_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
@@ -40,6 +46,7 @@ class ServiceLocator {
 
     sl.registerLazySingleton<BaseHomeRepository>(() => HomeRepository(sl()));
 
+    sl.registerLazySingleton<GetUserUseCase>(() => GetUserUseCase(sl()));
     sl.registerLazySingleton<GetPostsUseCase>(() => GetPostsUseCase(sl()));
     sl.registerLazySingleton<GetPostsUsersUseCase>(
         () => GetPostsUsersUseCase(sl()));
@@ -55,5 +62,16 @@ class ServiceLocator {
     sl.registerLazySingleton<SavePostUseCase>(() => SavePostUseCase(sl()));
     sl.registerLazySingleton<GetSavedPostsUseCase>(
         () => GetSavedPostsUseCase(sl()));
+
+    /// Comments
+    sl.registerLazySingleton<BaseCommentsRemoteDataSource>(
+        () => CommentsRemoteDataSource());
+
+    sl.registerLazySingleton<BaseCommentsRepository>(
+        () => CommentsRepository(sl()));
+
+    sl.registerLazySingleton<AddCommentUseCase>(() => AddCommentUseCase(sl()));
+    sl.registerLazySingleton<GetCommentsUseCase>(
+        () => GetCommentsUseCase(sl()));
   }
 }

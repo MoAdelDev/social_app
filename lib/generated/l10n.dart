@@ -299,6 +299,26 @@ class S {
       args: [],
     );
   }
+
+  /// `Add a comment for `
+  String get addCommentHintText {
+    return Intl.message(
+      'Add a comment for ',
+      name: 'addCommentHintText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Please add comment`
+  String get addCommentWarningText {
+    return Intl.message(
+      'Please add comment',
+      name: 'addCommentWarningText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

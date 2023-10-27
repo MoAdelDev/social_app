@@ -5,6 +5,10 @@ class HomeState extends Equatable {
   final List<Widget> screens;
   final File? imagePicked;
 
+  final user_entity.User? user;
+  final RequestState userState;
+  final String userError;
+
   final RequestState publishState;
   final String publishError;
 
@@ -36,6 +40,9 @@ class HomeState extends Equatable {
       ProfileScreen(),
       SettingsScreen(),
     ],
+    this.user,
+    this.userState = RequestState.nothing,
+    this.userError = '',
     this.publishState = RequestState.nothing,
     this.publishError = '',
     this.posts = const [],
@@ -58,6 +65,9 @@ class HomeState extends Equatable {
     int? currentIndex,
     List<Widget>? screens,
     File? imagePicked,
+    user_entity.User? user,
+    String? userError,
+    RequestState? userState,
     RequestState? publishState,
     String? publishError,
     List<Post>? posts,
@@ -79,6 +89,9 @@ class HomeState extends Equatable {
         currentIndex: currentIndex ?? this.currentIndex,
         screens: screens ?? this.screens,
         imagePicked: imagePicked ?? this.imagePicked,
+        userError: userError ?? this.userError,
+        userState: userState ?? this.userState,
+        user: user ?? this.user,
         posts: posts ?? this.posts,
         postsState: postsState ?? this.postsState,
         postsError: postsError ?? this.postsError,
@@ -98,10 +111,14 @@ class HomeState extends Equatable {
       );
 
   @override
-  List<Object?> get props => [
+  List<Object?> get props =>
+      [
         currentIndex,
         screens,
         imagePicked,
+        user,
+        userState,
+        userError,
         publishState,
         publishError,
         posts,

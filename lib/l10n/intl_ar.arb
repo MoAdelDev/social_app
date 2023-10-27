@@ -23,6 +23,8 @@
   "cancelTitle" : "إلغاء",
   "deleteTitle" : "مسح",
   "modifyTitle" : "تعديل",
-  "writeCaptionTitle" : "أكتب شيئاً ..."
+  "writeCaptionTitle" : "أكتب شيئاً ...",
+  "addCommentHintText" : "َاضف تعليق ل",
+  "addCommentWarningText" : "من فضلك أضف تعليقاً"
 
 }

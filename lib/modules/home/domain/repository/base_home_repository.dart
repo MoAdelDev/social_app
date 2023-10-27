@@ -7,6 +7,8 @@ import 'package:social_app/modules/home/data/models/post_model.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 
 abstract class BaseHomeRepository {
+  Future<Either<Failure, User>> getUser({required String uid});
+
   Future<Either<Failure, List<Post>>> getPosts();
 
   Future<Either<Failure, Map<String, User>>> getUsersPosts(

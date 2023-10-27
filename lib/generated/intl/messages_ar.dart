@@ -22,6 +22,10 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "addCommentHintText":
+            MessageLookupByLibrary.simpleMessage("َاضف تعليق ل"),
+        "addCommentWarningText":
+            MessageLookupByLibrary.simpleMessage("من فضلك أضف تعليقاً"),
         "cancelTitle": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "deletePostErrorMsg": MessageLookupByLibrary.simpleMessage(
             "فشل في مسح المنشور. حاول مرةً أخرى"),

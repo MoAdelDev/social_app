@@ -11,6 +11,7 @@ import 'package:social_app/core/components/default_shimmer.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/style/fonts.dart';
 import 'package:social_app/core/utils/enums.dart';
+import 'package:social_app/main.dart';
 import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
 import 'package:social_app/modules/home/presentation/controller/modify_post/modify_post_bloc.dart';
 import '../../../../generated/l10n.dart';
@@ -35,7 +36,8 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
   void initState() {
     super.initState();
     controller.text = widget.args.post.captionText;
-    BlocProvider.of<ModifyPostBloc>(context).add(const ModifyPostRemoveImagePickedEvent());
+    BlocProvider.of<ModifyPostBloc>(context)
+        .add(const ModifyPostRemoveImagePickedEvent());
   }
 
   @override
@@ -60,9 +62,9 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                     children: [
                       DefaultAppBarIcon(
                         onPressed: () => Navigator.pop(context),
-                        child: const Icon(
+                        child: Icon(
                           Icons.arrow_back,
-                          color: Colors.black,
+                          color: Theme.of(context).colorScheme.onBackground,
                         ),
                       ),
                       ConditionalBuilder(
@@ -80,7 +82,9 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                                   );
                             },
                             child: SvgPicture.asset(
-                              'assets/icons/edit.svg',
+                              MyApp.isDark
+                                  ? 'assets/icons/light/edit.svg'
+                                  : 'assets/icons/dark/edit.svg',
                               width: 25,
                               height: 25,
                             ),
@@ -157,16 +161,14 @@ class _ModifyPostScreenState extends State<ModifyPostScreen> {
                                           Container(
                                             height: 20.0,
                                             width: double.infinity,
-                                            padding:
-                                                const EdgeInsets.symmetric(
-                                                    horizontal: 20.0),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 20.0),
                                             decoration: BoxDecoration(
                                               color: const Color(0xff000000)
                                                   .withOpacity(0.4),
                                               borderRadius:
                                                   const BorderRadius.only(
-                                                bottomLeft:
-                                                    Radius.circular(30),
+                                                bottomLeft: Radius.circular(30),
                                                 bottomRight:
                                                     Radius.circular(30),
                                               ),

@@ -9,6 +9,8 @@ import 'package:social_app/modules/home/data/models/post_model.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 
 abstract class BaseHomeRemoteDataSource {
+  Future<UserModel> getUser({required String uid});
+
   Future<void> publishPost({
     required PostModel postModel,
     required File imageFile,
@@ -44,6 +46,18 @@ abstract class BaseHomeRemoteDataSource {
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
+  @override
+  Future<UserModel> getUser({required String uid}) async {
+    final result = await FirebaseFirestore.instance
+        .collection('users')
+        .doc(uid)
+        .get()
+        .catchError((error) {
+      throw ServerException(ErrorMessageModel(error.toString()));
+    });
+    return UserModel.formJson(result.data() ?? {});
+  }
+
   @override
   Future<List<PostModel>> getPosts() async {
     final result = await FirebaseFirestore.instance

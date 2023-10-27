@@ -1,38 +1,30 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:social_app/main.dart';
-import 'package:social_app/modules/authentication/domain/entities/user.dart'
-    as user_entity;
-import 'package:social_app/modules/home/domain/entities/post.dart';
-import 'package:social_app/modules/home/presentation/widgets/post_more_widget.dart';
+import 'package:social_app/core/components/default_progress_indicator.dart';
 
-import '../../../../core/components/default_progress_indicator.dart';
 import '../../../../core/style/fonts.dart';
+import '../../../../main.dart';
 
-class PostUserWidget extends StatelessWidget {
-  final user_entity.User user;
-  final Post post;
-
-  const PostUserWidget({super.key, required this.user, required this.post});
+class CommentDataWidget extends StatelessWidget {
+  const CommentDataWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Row(
       children: [
         CircleAvatar(
-          radius: 28,
+          radius: 23,
           backgroundColor: Colors.white,
           child: CircleAvatar(
-            radius: 25,
+            radius: 20,
             backgroundColor: Colors.white,
             child: ClipRRect(
               clipBehavior: Clip.antiAlias,
               borderRadius: BorderRadius.circular(30.0),
-              child: user.photo == ''
+              child: MyApp.user?.photo == ''
                   ? SvgPicture.asset(
-                      user.gender == 'Male'
+                      MyApp.user?.gender == 'Male'
                           ? 'assets/icons/man.svg'
                           : 'assets/icons/woman.svg',
                       width: double.infinity,
@@ -40,9 +32,10 @@ class PostUserWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : CachedNetworkImage(
-                      imageUrl: user.photo,
-                      errorWidget: (context, url, error) =>
-                          const DefaultProgressIndicator(),
+                      imageUrl: MyApp.user?.photo ?? '',
+                      errorWidget: (context, url, error) {
+                        return const DefaultProgressIndicator();
+                      },
                       placeholder: (
                         context,
                         url,
@@ -53,10 +46,11 @@ class PostUserWidget extends StatelessWidget {
                           width: double.infinity,
                           height: double.infinity,
                           decoration: BoxDecoration(
-                              image: DecorationImage(
-                            image: imageProvider,
-                            fit: BoxFit.cover,
-                          )),
+                            image: DecorationImage(
+                              image: imageProvider,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         );
                       },
                     ),
@@ -71,40 +65,52 @@ class PostUserWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                user.name,
-                style: Theme.of(context)
-                    .textTheme
-                    .bodySmall
-                    ?.copyWith(fontFamily: AppFonts.bold),
+                MyApp.user?.name ?? '',
+                style: Theme.of(context).textTheme.displayMedium?.copyWith(
+                      fontFamily: AppFonts.bold,
+                    ),
               ),
               const SizedBox(
-                height: 3.0,
+                height: 5.0,
               ),
               Row(
+                mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   SvgPicture.asset(
-                    MyApp.isDark ? 'assets/icons/light/world.svg' :'assets/icons/dark/world.svg',
-                    width: 23.0,
-                    height: 23.0,
+                    MyApp.isDark
+                        ? 'assets/icons/light/world.svg'
+                        : 'assets/icons/dark/world.svg',
+                    width: 15.0,
+                    height: 15.0,
                   ),
                   const SizedBox(
                     width: 3.0,
                   ),
                   Expanded(
                     child: Text(
-                      post.date,
-                      style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                          fontFamily: AppFonts.regular,
-                          color: MyApp.isDark ? Colors.grey[300]:Colors.grey[700]),
+                      '10/2.2022',
+                      style: Theme.of(context)
+                          .textTheme
+                          .displayMedium
+                          ?.copyWith(
+                              fontFamily: AppFonts.regular,
+                              color: MyApp.isDark
+                                  ? Colors.grey[300]
+                                  : Colors.grey[700]),
                     ),
                   ),
                 ],
               ),
+              const SizedBox(
+                height: 10.0,
+              ),
+              Text(
+                'Welcome to our users',
+                style: Theme.of(context).textTheme.bodySmall,
+              )
             ],
           ),
         ),
-        if (user.uid == FirebaseAuth.instance.currentUser?.uid)
-          PostMoreWidget(post: post),
       ],
     );
   }

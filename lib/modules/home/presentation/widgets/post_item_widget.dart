@@ -8,6 +8,7 @@ import 'package:social_app/core/style/colors.dart';
 import 'package:social_app/modules/authentication/domain/entities/user.dart'
     as user_entity;
 import 'package:social_app/modules/home/domain/entities/post.dart';
+import 'package:social_app/modules/comments/presentation/screens/comments_screen.dart';
 import 'package:social_app/modules/home/presentation/widgets/post_user_widget.dart';
 import '../../../../core/style/fonts.dart';
 import '../controller/home/home_bloc.dart';
@@ -108,92 +109,120 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                 ),
                 child: BlocBuilder<HomeBloc, HomeState>(
                   builder: (context, state) {
-                    return Row(
-                      children: [
-                        Row(
-                          children: [
-                            SvgPicture.asset(
-                              'assets/icons/comments.svg',
+                    return InkWell(
+                      onTap: () {
+                        showModalBottomSheet(
+                          context: context,
+                          clipBehavior: Clip.antiAliasWithSaveLayer,
+                          enableDrag: true,
+                          useSafeArea: true,
+                          isDismissible: true,
+                          isScrollControlled: true,
+                          backgroundColor:
+                              Theme.of(context).colorScheme.surface,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius: BorderRadius.only(
+                              topRight: Radius.circular(20.0),
+                              topLeft: Radius.circular(20.0),
                             ),
-                            const SizedBox(
-                              width: 5.0,
-                            ),
-                            Text(
-                              '10',
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8)),
-                            )
-                          ],
-                        ),
-                        const SizedBox(
-                          width: 10.0,
-                        ),
-                        LikeButton(
-                          onTap: (isLiked) async {
-                            context
-                                .read<HomeBloc>()
-                                .add(HomeLikePostEvent(widget.post.id));
-                            return !isLiked;
-                          },
-                          key: likeKey,
-                          size: 30,
-                          likeCountAnimationType: LikeCountAnimationType.all,
-                          bubblesColor: const BubblesColor(
-                              dotPrimaryColor: AppColorDark.primary,
-                              dotSecondaryColor: AppColorDark.secondary),
-                          circleColor: const CircleColor(
-                              start: AppColorDark.primary,
-                              end: AppColorDark.secondary),
-                          circleSize: 35,
-                          isLiked: state.isLikedMap[widget.post.id],
-                          likeBuilder: (isLiked) {
-                            if (state.isLikedMap[widget.post.id] ?? false) {
-                              return SvgPicture.asset(
-                                  'assets/icons/heart_filled.svg');
-                            }
-                            return SvgPicture.asset('assets/icons/heart.svg');
-                          },
-                          animationDuration: const Duration(milliseconds: 1000),
-                          likeCount: state.postsLikes[widget.post.id],
-                          countBuilder: (likeCount, isLiked, text) {
-                            return Text(
-                              '${state.postsLikes[widget.post.id]}',
-                              style: TextStyle(
-                                  color: Colors.white.withOpacity(0.8)),
+                          ),
+                          builder: (context) {
+                            return CommentsScreen(
+                              post: widget.post,
+                              user: widget.user,
                             );
                           },
-                        ),
-                        const Spacer(),
-                        LikeButton(
-                          onTap: (isSaved) async {
-                            context.read<HomeBloc>().add(
-                                  HomeSavePostEvent(
-                                    widget.post.id,
-                                  ),
-                                );
-                            return !isSaved;
-                          },
-                          size: 30,
-                          likeCountAnimationType: LikeCountAnimationType.all,
-                          bubblesColor: const BubblesColor(
-                              dotPrimaryColor: AppColorDark.primary,
-                              dotSecondaryColor: AppColorDark.secondary),
-                          circleColor: const CircleColor(
-                            start: AppColorDark.primary,
-                            end: AppColorDark.secondary,
+                        );
+                      },
+                      child: Row(
+                        children: [
+                          Row(
+                            children: [
+                              SvgPicture.asset(
+                                'assets/icons/comments.svg',
+                              ),
+                              const SizedBox(
+                                width: 5.0,
+                              ),
+                              Text(
+                                '10',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8)),
+                              )
+                            ],
                           ),
-                          circleSize: 35,
-                          isLiked: state.savedPosts[widget.post.id],
-                          likeBuilder: (isSaved) {
-                            if (state.savedPosts[widget.post.id] ?? false) {
-                              return SvgPicture.asset(
-                                  'assets/icons/save_filled.svg');
-                            }
-                            return SvgPicture.asset('assets/icons/save.svg');
-                          },
-                          animationDuration: const Duration(milliseconds: 1000),
-                        ),
-                      ],
+                          const SizedBox(
+                            width: 10.0,
+                          ),
+                          LikeButton(
+                            onTap: (isLiked) async {
+                              context
+                                  .read<HomeBloc>()
+                                  .add(HomeLikePostEvent(widget.post.id));
+                              return !isLiked;
+                            },
+                            key: likeKey,
+                            size: 30,
+                            likeCountAnimationType: LikeCountAnimationType.all,
+                            bubblesColor: const BubblesColor(
+                                dotPrimaryColor: AppColorDark.primary,
+                                dotSecondaryColor: AppColorDark.secondary),
+                            circleColor: const CircleColor(
+                                start: AppColorDark.primary,
+                                end: AppColorDark.secondary),
+                            circleSize: 35,
+                            isLiked: state.isLikedMap[widget.post.id],
+                            likeBuilder: (isLiked) {
+                              if (state.isLikedMap[widget.post.id] ?? false) {
+                                return SvgPicture.asset(
+                                    'assets/icons/heart_filled.svg');
+                              }
+                              return SvgPicture.asset('assets/icons/heart.svg');
+                            },
+                            animationDuration:
+                                const Duration(milliseconds: 1000),
+                            likeCount: state.postsLikes[widget.post.id],
+                            countBuilder: (likeCount, isLiked, text) {
+                              return Text(
+                                '${state.postsLikes[widget.post.id]}',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8)),
+                              );
+                            },
+                          ),
+                          const Spacer(),
+                          LikeButton(
+                            onTap: (isSaved) async {
+                              context.read<HomeBloc>().add(
+                                    HomeSavePostEvent(
+                                      widget.post.id,
+                                    ),
+                                  );
+                              return !isSaved;
+                            },
+                            size: 30,
+                            likeCountAnimationType: LikeCountAnimationType.all,
+                            bubblesColor: const BubblesColor(
+                                dotPrimaryColor: AppColorDark.primary,
+                                dotSecondaryColor: AppColorDark.secondary),
+                            circleColor: const CircleColor(
+                              start: AppColorDark.primary,
+                              end: AppColorDark.secondary,
+                            ),
+                            circleSize: 35,
+                            isLiked: state.savedPosts[widget.post.id],
+                            likeBuilder: (isSaved) {
+                              if (state.savedPosts[widget.post.id] ?? false) {
+                                return SvgPicture.asset(
+                                    'assets/icons/save_filled.svg');
+                              }
+                              return SvgPicture.asset('assets/icons/save.svg');
+                            },
+                            animationDuration:
+                                const Duration(milliseconds: 1000),
+                          ),
+                        ],
+                      ),
                     );
                   },
                 ),

@@ -15,6 +15,16 @@ class HomeRepository extends BaseHomeRepository {
   HomeRepository(this.basePostRemoteDataSource);
 
   @override
+  Future<Either<Failure, User>> getUser({required String uid}) async {
+    try {
+      final result = await basePostRemoteDataSource.getUser(uid: uid);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, List<Post>>> getPosts() async {
     try {
       final result = await basePostRemoteDataSource.getPosts();

@@ -23,5 +23,7 @@
   "cancelTitle" : "Cancel",
   "deleteTitle" : "Delete",
   "modifyTitle" : "Modify",
-  "writeCaptionTitle" : "Write a caption ..."
+  "writeCaptionTitle" : "Write a caption ...",
+  "addCommentHintText" : "Add a comment for ",
+  "addCommentWarningText" : "Please add comment"
 }

@@ -13,6 +13,7 @@ import 'package:social_app/modules/authentication/domain/entities/user.dart'
     as user_entity;
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:social_app/modules/authentication/presentation/screens/login_screen.dart';
+import 'package:social_app/modules/comments/presentation/controller/comments_bloc.dart';
 import 'package:social_app/modules/home/presentation/controller/home/home_bloc.dart';
 import 'package:social_app/modules/home/presentation/controller/modify_post/modify_post_bloc.dart';
 import 'package:social_app/modules/home/presentation/screens/home_screen.dart';
@@ -31,7 +32,7 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static bool isDark = false;
+  static bool isDark = true;
   static bool isArabic = false;
   static user_entity.User? user;
 
@@ -59,13 +60,22 @@ class MyApp extends StatelessWidget {
               sl(),
               sl(),
               sl(),
-            )..add(const HomeGetPostsEvent()),
+              sl(),
+            )
+              ..add(const HomeGetUserEvent())
+              ..add(const HomeGetPostsEvent()),
           ),
           BlocProvider(
             create: (context) => ModifyPostBloc(
               sl(),
             ),
           ),
+          BlocProvider(
+            create: (context) => CommentsBloc(
+              sl(),
+              sl()
+            ),
+          )
         ],
         child: MaterialApp(
           home: FirebaseAuth.instance.currentUser?.uid != null

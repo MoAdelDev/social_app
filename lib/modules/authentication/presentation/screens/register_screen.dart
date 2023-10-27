@@ -58,9 +58,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                     left: 8.0,
                     child: DefaultAppBarIcon(
                       onPressed: () => Navigator.pop(context),
-                      child: const Icon(
+                      child:  Icon(
                         Icons.arrow_back,
-                        color: Colors.black,
+                        color: Theme.of(context).colorScheme.onBackground,
                       ),
                     ),
                   ),
