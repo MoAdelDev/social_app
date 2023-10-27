@@ -27,7 +27,6 @@ class PostItemWidget extends StatefulWidget {
 }
 
 class _PostItemWidgetState extends State<PostItemWidget> {
-
   final likeKey = GlobalKey<LikeButtonState>();
 
   @override
@@ -129,48 +128,44 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                           const SizedBox(
                             width: 10.0,
                           ),
-                          Row(
-                            children: [
-                              LikeButton(
-                                onTap: (isLiked) async {
-                                  context
-                                      .read<HomeBloc>()
-                                      .add(HomeLikePostEvent(widget.post.id));
-                                  return !isLiked;
-                                },
-                                key: likeKey,
-                                size: 30,
-                                likeCountAnimationType:
-                                    LikeCountAnimationType.all,
-                                bubblesColor: const BubblesColor(
-                                    dotPrimaryColor: AppColorDark.primary,
-                                    dotSecondaryColor: AppColorDark.secondary),
-                                circleColor: const CircleColor(
-                                    start: AppColorDark.primary,
-                                    end: AppColorDark.secondary),
-                                circleSize: 35,
-                                isLiked: state.isLikedMap[widget.post.id],
-                                likeBuilder: (isLiked) {
-                                  if (state.isLikedMap[widget.post.id] ??
-                                      false) {
-                                    return SvgPicture.asset(
-                                        'assets/icons/heart_filled.svg');
-                                  }
-                                  return SvgPicture.asset(
-                                      'assets/icons/heart.svg');
-                                },
-                                animationDuration:
-                                    const Duration(milliseconds: 1000),
-                                likeCount: state.postsLikes[widget.post.id],
-                                countBuilder: (likeCount, isLiked, text) {
-                                  return Text(
-                                    '${state.postsLikes[widget.post.id]}',
-                                    style: TextStyle(
-                                        color: Colors.white.withOpacity(0.8)),
-                                  );
-                                },
-                              ),
-                            ],
+                          LikeButton(
+                            onTap: (isLiked) async {
+                              context
+                                  .read<HomeBloc>()
+                                  .add(HomeLikePostEvent(widget.post.id));
+                              return !isLiked;
+                            },
+                            key: likeKey,
+                            size: 30,
+                            likeCountAnimationType:
+                                LikeCountAnimationType.all,
+                            bubblesColor: const BubblesColor(
+                                dotPrimaryColor: AppColorDark.primary,
+                                dotSecondaryColor: AppColorDark.secondary),
+                            circleColor: const CircleColor(
+                                start: AppColorDark.primary,
+                                end: AppColorDark.secondary),
+                            circleSize: 35,
+                            isLiked: state.isLikedMap[widget.post.id],
+                            likeBuilder: (isLiked) {
+                              if (state.isLikedMap[widget.post.id] ??
+                                  false) {
+                                return SvgPicture.asset(
+                                    'assets/icons/heart_filled.svg');
+                              }
+                              return SvgPicture.asset(
+                                  'assets/icons/heart.svg');
+                            },
+                            animationDuration:
+                                const Duration(milliseconds: 1000),
+                            likeCount: state.postsLikes[widget.post.id],
+                            countBuilder: (likeCount, isLiked, text) {
+                              return Text(
+                                '${state.postsLikes[widget.post.id]}',
+                                style: TextStyle(
+                                    color: Colors.white.withOpacity(0.8)),
+                              );
+                            },
                           ),
                           const Spacer(),
                           SvgPicture.asset(
