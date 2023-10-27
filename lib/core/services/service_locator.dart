@@ -9,7 +9,11 @@ import 'package:social_app/modules/comments/data/datasource/comments_remote_data
 import 'package:social_app/modules/comments/data/repository/comments_repository.dart';
 import 'package:social_app/modules/comments/domain/repository/base_comments_repository.dart';
 import 'package:social_app/modules/comments/domain/usecases/add_comment_usecase.dart';
+import 'package:social_app/modules/comments/domain/usecases/get_comments_likes_usecase.dart';
 import 'package:social_app/modules/comments/domain/usecases/get_comments_usecase.dart';
+import 'package:social_app/modules/comments/domain/usecases/get_comments_users_usecase.dart';
+import 'package:social_app/modules/comments/domain/usecases/get_is_comment_liked_usecase.dart';
+import 'package:social_app/modules/comments/domain/usecases/like_comment_usecase.dart';
 import 'package:social_app/modules/home/data/datasource/home_remote_data_source.dart';
 import 'package:social_app/modules/home/data/repository/home_repository.dart';
 import 'package:social_app/modules/home/domain/repository/base_home_repository.dart';
@@ -73,5 +77,13 @@ class ServiceLocator {
     sl.registerLazySingleton<AddCommentUseCase>(() => AddCommentUseCase(sl()));
     sl.registerLazySingleton<GetCommentsUseCase>(
         () => GetCommentsUseCase(sl()));
+    sl.registerLazySingleton<GetCommentUsersUseCase>(
+        () => GetCommentUsersUseCase(sl()));
+    sl.registerLazySingleton<GetIsCommentLikedIsUseCase>(
+            () => GetIsCommentLikedIsUseCase(sl()));
+    sl.registerLazySingleton<GetCommentsLikesUseCase>(
+            () => GetCommentsLikesUseCase(sl()));
+    sl.registerLazySingleton<LikeCommentUseCase>(
+            () => LikeCommentUseCase(sl()));
   }
 }

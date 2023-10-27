@@ -21,3 +21,43 @@ class CommentsGetEvent extends BaseCommentsEvent {
     this.postId,
   );
 }
+
+class CommentsGetCommentsUsersEvent extends BaseCommentsEvent {
+  final String postId;
+  final List<Comment> comments;
+
+  const CommentsGetCommentsUsersEvent(
+    this.postId,
+    this.comments,
+  );
+}
+
+class CommentsGetIsLikedMapEvent extends BaseCommentsEvent {
+  final List<Comment> comments;
+  final Map<String, user_entity.User> commentsUsers;
+
+  const CommentsGetIsLikedMapEvent(
+    this.comments,
+    this.commentsUsers,
+  );
+}
+
+class CommentsGetCommentsLikesEvent extends BaseCommentsEvent {
+  final List<Comment> comments;
+  final Map<String, user_entity.User> commentsUsers;
+  final Map<String, bool> isLikedMap;
+
+  const CommentsGetCommentsLikesEvent(
+    this.comments,
+    this.commentsUsers,
+    this.isLikedMap,
+  );
+}
+
+class CommentsLikeCommentEvent extends BaseCommentsEvent {
+  final Comment comment;
+
+  const CommentsLikeCommentEvent(
+    this.comment,
+  );
+}

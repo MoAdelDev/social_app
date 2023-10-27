@@ -25,13 +25,18 @@ class CommentItemWidget extends StatelessWidget {
         color: Theme.of(context).colorScheme.surface,
         borderRadius: BorderRadius.circular(30),
       ),
-      child:  Row(
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Expanded(
-            child: CommentDataWidget(comment: comment,),
+            child: CommentDataWidget(
+              comment: comment,
+              user: user,
+            ),
           ),
-          const CommentLikeWidget(),
+          CommentLikeWidget(
+            comment: comment,
+          ),
         ],
       ),
     );

@@ -59,9 +59,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   itemBuilder: (context, index) {
                     int itemIndex = state.comments.length - 1 - index;
                     Comment comment = state.comments[itemIndex];
+                    User? user = state.commentsUsers[comment.id];
                     return CommentItemWidget(
                       post: widget.post,
-                      user: widget.user,
+                      user: user!,
                       comment: comment,
                     );
                   },

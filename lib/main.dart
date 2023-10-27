@@ -73,9 +73,13 @@ class MyApp extends StatelessWidget {
           BlocProvider(
             create: (context) => CommentsBloc(
               sl(),
-              sl()
+              sl(),
+              sl(),
+              sl(),
+              sl(),
+              sl(),
             ),
-          )
+          ),
         ],
         child: MaterialApp(
           home: FirebaseAuth.instance.currentUser?.uid != null

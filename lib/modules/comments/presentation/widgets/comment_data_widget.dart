@@ -2,6 +2,7 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_app/core/components/default_progress_indicator.dart';
+import 'package:social_app/modules/authentication/domain/entities/user.dart';
 import 'package:social_app/modules/comments/domain/entities/comment.dart';
 
 import '../../../../core/style/fonts.dart';
@@ -9,7 +10,13 @@ import '../../../../main.dart';
 
 class CommentDataWidget extends StatelessWidget {
   final Comment comment;
-  const CommentDataWidget({super.key, required this.comment});
+  final User user;
+
+  const CommentDataWidget({
+    super.key,
+    required this.comment,
+    required this.user,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,9 +32,9 @@ class CommentDataWidget extends StatelessWidget {
             child: ClipRRect(
               clipBehavior: Clip.antiAlias,
               borderRadius: BorderRadius.circular(30.0),
-              child: MyApp.user?.photo == ''
+              child: user.photo == ''
                   ? SvgPicture.asset(
-                      MyApp.user?.gender == 'Male'
+                      user.gender == 'Male'
                           ? 'assets/icons/man.svg'
                           : 'assets/icons/woman.svg',
                       width: double.infinity,
@@ -35,7 +42,7 @@ class CommentDataWidget extends StatelessWidget {
                       fit: BoxFit.cover,
                     )
                   : CachedNetworkImage(
-                      imageUrl: MyApp.user?.photo ?? '',
+                      imageUrl: user.photo,
                       errorWidget: (context, url, error) {
                         return const DefaultProgressIndicator();
                       },
@@ -68,7 +75,7 @@ class CommentDataWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                MyApp.user?.name ?? '',
+                user.name,
                 style: Theme.of(context).textTheme.displayMedium?.copyWith(
                       fontFamily: AppFonts.bold,
                     ),

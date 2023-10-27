@@ -11,5 +11,5 @@ class AddCommentUseCase {
 
   Future<Either<Failure, Comment>> call(
           {required CommentModel commentModel}) async =>
-      baseCommentRepository.addComment(commentModel: commentModel);
+     await  baseCommentRepository.addComment(commentModel: commentModel);
 }

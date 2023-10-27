@@ -10,5 +10,5 @@ class GetCommentsUseCase {
 
   Future<Either<Failure, List<Comment>>> call(
           {required String postId}) async =>
-      baseCommentRepository.getComments(postId: postId);
+     await  baseCommentRepository.getComments(postId: postId);
 }
