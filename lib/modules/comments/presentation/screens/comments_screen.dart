@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:social_app/core/components/default_scroll_physics.dart';
 import 'package:social_app/core/utils/enums.dart';
 import 'package:social_app/modules/authentication/domain/entities/user.dart';
+import 'package:social_app/modules/comments/domain/entities/comment.dart';
 import 'package:social_app/modules/comments/presentation/controller/comments_bloc.dart';
 import 'package:social_app/modules/comments/presentation/widgets/comment_add_widget.dart';
 import 'package:social_app/modules/comments/presentation/widgets/comment_item_widget.dart';
@@ -36,7 +37,7 @@ class _CommentsScreenState extends State<CommentsScreen> {
   Widget build(BuildContext context) {
     return BlocBuilder<CommentsBloc, CommentsState>(
       builder: (context, state) {
-        if(state.commentsState == RequestState.loading) {
+        if (state.commentsState == RequestState.loading) {
           return const CommentsLoadingWidget();
         }
         return Padding(
@@ -56,9 +57,12 @@ class _CommentsScreenState extends State<CommentsScreen> {
                 child: ListView.separated(
                   physics: DefaultScrollPhysics.bouncing(),
                   itemBuilder: (context, index) {
+                    int itemIndex = state.comments.length - 1 - index;
+                    Comment comment = state.comments[itemIndex];
                     return CommentItemWidget(
                       post: widget.post,
                       user: widget.user,
+                      comment: comment,
                     );
                   },
                   separatorBuilder: (context, index) => const SizedBox(

@@ -2,16 +2,19 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_app/core/components/default_progress_indicator.dart';
+import 'package:social_app/modules/comments/domain/entities/comment.dart';
 
 import '../../../../core/style/fonts.dart';
 import '../../../../main.dart';
 
 class CommentDataWidget extends StatelessWidget {
-  const CommentDataWidget({super.key});
+  final Comment comment;
+  const CommentDataWidget({super.key, required this.comment});
 
   @override
   Widget build(BuildContext context) {
     return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         CircleAvatar(
           radius: 23,
@@ -88,7 +91,7 @@ class CommentDataWidget extends StatelessWidget {
                   ),
                   Expanded(
                     child: Text(
-                      '10/2.2022',
+                      comment.date,
                       style: Theme.of(context)
                           .textTheme
                           .displayMedium
@@ -105,7 +108,7 @@ class CommentDataWidget extends StatelessWidget {
                 height: 10.0,
               ),
               Text(
-                'Welcome to our users',
+                comment.commentText,
                 style: Theme.of(context).textTheme.bodySmall,
               )
             ],
