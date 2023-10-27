@@ -28,9 +28,21 @@ abstract class BaseHomeRepository {
   Future<Either<Failure, void>> deletePost({
     required String postId,
   });
+
   Future<Either<Failure, void>> modifyPost({
     required String postId,
     required String captionText,
     required File? imageFile,
+  });
+
+  Future<Either<Failure, void>> savePost({
+    required String postId,
+    required String uid,
+    required bool isSaved,
+  });
+
+  Future<Either<Failure, Map<String, bool>>> getSavedPosts({
+    required List<Post> posts,
+    required String uid,
   });
 }

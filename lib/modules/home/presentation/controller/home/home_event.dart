@@ -17,7 +17,6 @@ class HomePickImageFromCameraOrGalleryEvent extends BaseHomeEvent {
   const HomePickImageFromCameraOrGalleryEvent(this.isCamera, this.context);
 }
 
-
 class HomePublishPostEvent extends BaseHomeEvent {
   final File imageFile;
   final String captionText;
@@ -55,6 +54,20 @@ class HomeGetPostsLikesEvent extends BaseHomeEvent {
   );
 }
 
+class HomeGetSavedPostsEvent extends BaseHomeEvent {
+  final List<Post> posts;
+  final Map<String, user_entity.User> postsUsers;
+  final Map<String, bool> isLikedMap;
+  final Map<String, int> postLikes;
+
+  const HomeGetSavedPostsEvent(
+    this.posts,
+    this.postsUsers,
+    this.isLikedMap,
+    this.postLikes,
+  );
+}
+
 class HomeLoadPostsEvent extends BaseHomeEvent {
   const HomeLoadPostsEvent();
 }
@@ -79,4 +92,12 @@ class HomeModifyPostEvent extends BaseHomeEvent {
   final File imageFile;
 
   HomeModifyPostEvent(this.postId, this.captionText, this.imageFile);
+}
+
+class HomeSavePostEvent extends BaseHomeEvent {
+  final String postId;
+
+  HomeSavePostEvent(
+    this.postId,
+  );
 }

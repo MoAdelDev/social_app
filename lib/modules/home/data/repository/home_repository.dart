@@ -107,4 +107,32 @@ class HomeRepository extends BaseHomeRepository {
       return Left(ServerFailure(e.errorMessageModel.message));
     }
   }
+
+  @override
+  Future<Either<Failure, void>> savePost(
+      {required String postId,
+      required String uid,
+      required bool isSaved}) async {
+    try {
+      final result = await basePostRemoteDataSource.savePost(
+          postId: postId, uid: uid, isSaved: isSaved);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
+  Future<Either<Failure, Map<String, bool>>> getSavedPosts(
+      {required List<Post> posts, required String uid}) async {
+    try {
+      final result = await basePostRemoteDataSource.getSavedPosts(
+        posts: posts,
+        uid: uid,
+      );
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
 }

@@ -34,6 +34,7 @@ class MyApp extends StatelessWidget {
   static bool isDark = false;
   static bool isArabic = false;
   static user_entity.User? user;
+
   const MyApp({super.key});
 
   // This widget is the root of your application.
@@ -49,6 +50,8 @@ class MyApp extends StatelessWidget {
         providers: [
           BlocProvider(
             create: (context) => HomeBloc(
+              sl(),
+              sl(),
               sl(),
               sl(),
               sl(),

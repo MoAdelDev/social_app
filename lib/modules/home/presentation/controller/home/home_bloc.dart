@@ -18,8 +18,10 @@ import 'package:social_app/modules/home/data/models/post_model.dart';
 import 'package:social_app/modules/home/domain/usecases/delete_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_saved_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/save_post_usecase.dart';
 import 'package:social_app/modules/home/presentation/screens/posts_screen.dart';
 import 'package:social_app/modules/messages/messages_screen.dart';
 import 'package:social_app/modules/profile/profile_screen.dart';
@@ -42,6 +44,8 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final LikePostUseCase likePostUseCase;
   final GetPostsLikesUseCase getPostsLikesUseCase;
   final DeletePostUseCase deletePostUseCase;
+  final SavePostUseCase savePostUseCase;
+  final GetSavedPostsUseCase getSavedPostsUseCase;
 
   HomeBloc(
     this.getPostsUseCase,
@@ -51,6 +55,8 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     this.getIsLikedPostUseCase,
     this.getPostsLikesUseCase,
     this.deletePostUseCase,
+    this.savePostUseCase,
+    this.getSavedPostsUseCase,
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomePickImageFromCameraOrGalleryEvent>(_pickImage);
@@ -61,12 +67,16 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     on<HomeLikePostEvent>(_likePost);
     on<HomeGetIsLikedPostEvent>(_getIsLikedPost);
     on<HomeGetPostsLikesEvent>(_getPostsLikes);
+    on<HomeGetSavedPostsEvent>(_getSavedPosts);
     on<HomeDeletePostEvent>(_deletePost);
+    on<HomeSavePostEvent>(_savePost);
   }
 
   FutureOr<void> _changeBottomNavIndex(
       HomeChangeBottomNavIndexEvent event, Emitter<HomeState> emit) {
-    emit(state.copyWith(currentIndex: event.index, ));
+    emit(state.copyWith(
+      currentIndex: event.index,
+    ));
   }
 
   FutureOr<void> _pickImage(HomePickImageFromCameraOrGalleryEvent event,
@@ -93,6 +103,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       }
     }
   }
+
   FutureOr<void> _publishPost(
       HomePublishPostEvent event, Emitter<HomeState> emit) async {
     emit(state.copyWith(publishState: RequestState.loading));
@@ -169,12 +180,29 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       emit(state.copyWith(
           postsError: failure.message, postsState: RequestState.error));
     }, (postsLikes) {
+      add(HomeGetSavedPostsEvent(
+          event.posts, event.postsUsers, event.isLikedMap, postsLikes));
+    });
+  }
+
+  FutureOr<void> _getSavedPosts(
+      HomeGetSavedPostsEvent event, Emitter<HomeState> emit) async {
+    final result = await getSavedPostsUseCase(
+      posts: event.posts,
+      uid: FirebaseAuth.instance.currentUser?.uid ?? '',
+    );
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
+      emit(state.copyWith(
+          postsError: failure.message, postsState: RequestState.error));
+    }, (savedPosts) {
       emit(state.copyWith(
         postsUsers: event.postsUsers,
         posts: event.posts,
         isLikedMap: event.isLikedMap,
         postsState: RequestState.success,
-        postsLikes: postsLikes,
+        postsLikes: event.postLikes,
+        savedPosts: savedPosts,
         isLoading: false,
       ));
     });
@@ -254,5 +282,33 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     });
   }
 
-
+  FutureOr<void> _savePost(
+      HomeSavePostEvent event, Emitter<HomeState> emit) async {
+    Map<String, bool> savedPosts = state.savedPosts;
+    bool isSaved = !state.savedPosts[event.postId]!;
+    savedPosts[event.postId] = isSaved;
+    emit(state.copyWith(
+      saveState: RequestState.loading,
+      savedPosts: savedPosts,
+    ));
+    final result = await savePostUseCase(
+      postId: event.postId,
+      uid: FirebaseAuth.instance.currentUser?.uid ?? '',
+      isSaved: isSaved,
+    );
+    result.fold((error) {
+      Map<String, bool> savedPosts = state.savedPosts;
+      bool isSaved = !state.savedPosts[event.postId]!;
+      savedPosts[event.postId] = isSaved;
+      emit(state.copyWith(
+        saveState: RequestState.loading,
+        savedPosts: savedPosts,
+        saveError: error.message,
+      ));
+    }, (_) {
+      emit(state.copyWith(
+        saveState: RequestState.success,
+      ));
+    });
+  }
 }

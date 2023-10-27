@@ -32,6 +32,15 @@ abstract class BaseHomeRemoteDataSource {
       {required String postId,
       required String captionText,
       required File? imageFile});
+
+  Future<void> savePost({
+    required String postId,
+    required String uid,
+    required bool isSaved,
+  });
+
+  Future<Map<String, bool>> getSavedPosts(
+      {required List<Post> posts, required String uid});
 }
 
 class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
@@ -186,5 +195,58 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
         .catchError((error) {
       throw ServerException(ErrorMessageModel(error.toString()));
     });
+  }
+
+  @override
+  Future<void> savePost(
+      {required String postId, required String uid, required isSaved}) async {
+    if (!isSaved) {
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('saved_posts')
+          .where('postId', isEqualTo: postId)
+          .get()
+          .then((value) {
+        for (var save in value.docs) {
+          save.reference.delete();
+        }
+      }).catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+    } else {
+      final saveId = DateTime.now().millisecondsSinceEpoch;
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('saved_posts')
+          .doc(saveId.toString())
+          .set({'postId': postId}).catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+    }
+  }
+
+  @override
+  Future<Map<String, bool>> getSavedPosts(
+      {required List<Post> posts, required String uid}) async {
+    Map<String, bool> savedPosts = {};
+    for (Post post in posts) {
+      final result = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(uid)
+          .collection('saved_posts')
+          .where('postId', isEqualTo: post.id)
+          .get()
+          .catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+      if (result.docs.isNotEmpty) {
+        savedPosts.addAll({post.id: true});
+      } else {
+        savedPosts.addAll({post.id: false});
+      }
+    }
+    return savedPosts;
   }
 }
