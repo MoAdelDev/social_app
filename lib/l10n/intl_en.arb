@@ -25,5 +25,9 @@
   "modifyTitle" : "Modify",
   "writeCaptionTitle" : "Write a caption ...",
   "addCommentHintText" : "Add a comment for ",
-  "addCommentWarningText" : "Please add comment"
+  "addCommentWarningText" : "Please add comment",
+  "cameraTitle"  : "Camera",
+  "galleryTitle"  : "Gallery",
+  "imageSourceTitle"  : "Image source",
+  "imageSourceMsg" : "Please choose image source"
 }

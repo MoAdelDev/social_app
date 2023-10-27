@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/presentation/controller/modify_post/modify_post_bloc.dart';
 
 import '../../../../core/style/fonts.dart';
@@ -15,14 +16,14 @@ class ImagePickerDialog extends StatelessWidget {
     return AlertDialog(
       backgroundColor: Theme.of(context).colorScheme.surface,
       title: Text(
-        'Image source',
+        S.of(context).imageSourceTitle,
         style: Theme.of(context)
             .textTheme
             .bodyLarge
             ?.copyWith(fontFamily: AppFonts.bold),
       ),
       content: Text(
-        'Please choose image source',
+        S.of(context).imageSourceMsg,
         style: Theme.of(context).textTheme.bodySmall,
       ),
       shape: RoundedRectangleBorder(
@@ -51,7 +52,7 @@ class ImagePickerDialog extends StatelessWidget {
                 }
               },
               child: Text(
-                'Camera',
+                S.of(context).cameraTitle,
                 style: TextStyle(
                   fontSize: 16.0,
                   fontFamily: AppFonts.semiBold,
@@ -71,7 +72,7 @@ class ImagePickerDialog extends StatelessWidget {
                 }
               },
               child: Text(
-                'Gallery',
+                S.of(context).galleryTitle,
                 style: TextStyle(
                   fontSize: 16.0,
                   fontFamily: AppFonts.semiBold,

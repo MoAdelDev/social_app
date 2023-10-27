@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("َاضف تعليق ل"),
         "addCommentWarningText":
             MessageLookupByLibrary.simpleMessage("من فضلك أضف تعليقاً"),
+        "cameraTitle": MessageLookupByLibrary.simpleMessage("الكاميرا"),
         "cancelTitle": MessageLookupByLibrary.simpleMessage("إلغاء"),
         "deletePostErrorMsg": MessageLookupByLibrary.simpleMessage(
             "فشل في مسح المنشور. حاول مرةً أخرى"),
@@ -42,6 +43,10 @@ class MessageLookup extends MessageLookupByLibrary {
         "explore": MessageLookupByLibrary.simpleMessage("إستكشف"),
         "forgotPasswordQuestion":
             MessageLookupByLibrary.simpleMessage("هل نسيت كلمة المرور ؟"),
+        "galleryTitle": MessageLookupByLibrary.simpleMessage("المعرض"),
+        "imageSourceMsg":
+            MessageLookupByLibrary.simpleMessage("من فضلك أختار مصدر الصوره"),
+        "imageSourceTitle": MessageLookupByLibrary.simpleMessage("مصدر الصوره"),
         "login": MessageLookupByLibrary.simpleMessage("تسجيل الدخول"),
         "loginSuccessMsg":
             MessageLookupByLibrary.simpleMessage("تم تسجيل الدخول بنجاح"),

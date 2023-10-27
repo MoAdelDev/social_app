@@ -32,8 +32,8 @@ void main() async {
 }
 
 class MyApp extends StatelessWidget {
-  static bool isDark = true;
-  static bool isArabic = false;
+  static bool isDark = false;
+  static bool isArabic = true;
   static user_entity.User? user;
 
   const MyApp({super.key});

@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Add a comment for "),
         "addCommentWarningText":
             MessageLookupByLibrary.simpleMessage("Please add comment"),
+        "cameraTitle": MessageLookupByLibrary.simpleMessage("Camera"),
         "cancelTitle": MessageLookupByLibrary.simpleMessage("Cancel"),
         "deletePostErrorMsg": MessageLookupByLibrary.simpleMessage(
             "Failed to delete the post. Try again"),
@@ -42,6 +43,11 @@ class MessageLookup extends MessageLookupByLibrary {
         "explore": MessageLookupByLibrary.simpleMessage("Explore"),
         "forgotPasswordQuestion":
             MessageLookupByLibrary.simpleMessage("Forgot Password ?"),
+        "galleryTitle": MessageLookupByLibrary.simpleMessage("Gallery"),
+        "imageSourceMsg":
+            MessageLookupByLibrary.simpleMessage("Please choose image source"),
+        "imageSourceTitle":
+            MessageLookupByLibrary.simpleMessage("Image source"),
         "login": MessageLookupByLibrary.simpleMessage("Login"),
         "loginSuccessMsg": MessageLookupByLibrary.simpleMessage(
             "You have been logged in successfully"),

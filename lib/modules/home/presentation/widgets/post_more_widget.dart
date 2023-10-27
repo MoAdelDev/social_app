@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:social_app/core/router/app_router.dart';
 import 'package:social_app/core/router/screen_arguments.dart';
 import 'package:social_app/core/style/fonts.dart';
+import 'package:social_app/generated/l10n.dart';
 import 'package:social_app/modules/home/domain/entities/post.dart';
 import 'package:social_app/modules/home/presentation/widgets/bottom_sheet_divider.dart';
 import 'package:social_app/modules/home/presentation/widgets/delete_post_dialog.dart';
@@ -55,17 +56,17 @@ class PostMoreWidget extends StatelessWidget {
                               arguments: args,
                             );
                           },
-                          child: const Row(
+                          child:  Row(
                             children: [
                               Text(
-                                'Edit Post',
-                                style: TextStyle(
+                                S.of(context).editPostTitle,
+                                style: const TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: AppFonts.bold,
                                     color: Colors.white),
                               ),
-                              Spacer(),
-                              Icon(
+                              const Spacer(),
+                              const Icon(
                                 Icons.edit,
                                 color: Colors.white,
                               )
@@ -87,17 +88,17 @@ class PostMoreWidget extends StatelessWidget {
                               },
                             );
                           },
-                          child: const Row(
+                          child:  Row(
                             children: [
                               Text(
-                                'Delete Post',
-                                style: TextStyle(
+                                S.of(context).deletePostTitle,
+                                style: const TextStyle(
                                     fontSize: 20.0,
                                     fontFamily: AppFonts.bold,
                                     color: Colors.white),
                               ),
-                              Spacer(),
-                              Icon(
+                              const Spacer(),
+                              const Icon(
                                 Icons.delete,
                                 color: Colors.white,
                               )

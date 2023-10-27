@@ -35,7 +35,9 @@ class CommentLikeWidget extends StatelessWidget {
         Text(
           '20',
           style: TextStyle(
-              color: Colors.white.withOpacity(0.8), fontSize: 14.0),
+            color: Theme.of(context).colorScheme.onBackground,
+            fontSize: 14.0,
+          ),
         )
       ],
     );

@@ -71,6 +71,10 @@ class _CommentsScreenState extends State<CommentsScreen> {
                   itemCount: state.comments.length,
                 ),
               ),
+              Divider(
+                height: 1,
+                color: Colors.grey[500],
+              ),
               const SizedBox(
                 height: 10.0,
               ),
