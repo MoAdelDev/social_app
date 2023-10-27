@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:like_button/like_button.dart';
 import 'package:social_app/core/components/default_shimmer.dart';
+import 'package:social_app/core/style/colors.dart';
 import 'package:social_app/modules/authentication/domain/entities/user.dart'
     as user_entity;
 import 'package:social_app/modules/home/domain/entities/post.dart';
@@ -10,7 +12,7 @@ import 'package:social_app/modules/home/presentation/widgets/post_user_widget.da
 import '../../../../core/style/fonts.dart';
 import '../controller/home/home_bloc.dart';
 
-class PostItemWidget extends StatelessWidget {
+class PostItemWidget extends StatefulWidget {
   final Post post;
   final user_entity.User user;
 
@@ -19,6 +21,14 @@ class PostItemWidget extends StatelessWidget {
     required this.post,
     required this.user,
   });
+
+  @override
+  State<PostItemWidget> createState() => _PostItemWidgetState();
+}
+
+class _PostItemWidgetState extends State<PostItemWidget> {
+
+  final likeKey = GlobalKey<LikeButtonState>();
 
   @override
   Widget build(BuildContext context) {
@@ -31,18 +41,19 @@ class PostItemWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          PostUserWidget(user: user, post: post),
+          PostUserWidget(user: widget.user, post: widget.post),
           const SizedBox(
             height: 20.0,
           ),
-          if (post.captionText.isNotEmpty || post.captionText != '')
+          if (widget.post.captionText.isNotEmpty ||
+              widget.post.captionText != '')
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15.0),
                   child: Text(
-                    post.captionText,
+                    widget.post.captionText,
                     style: Theme.of(context)
                         .textTheme
                         .bodySmall
@@ -58,7 +69,7 @@ class PostItemWidget extends StatelessWidget {
             alignment: AlignmentDirectional.bottomCenter,
             children: [
               CachedNetworkImage(
-                imageUrl: post.image,
+                imageUrl: widget.post.image,
                 height: 270.53,
                 fit: BoxFit.cover,
                 errorWidget: (context, url, error) => DefaultShimmer(
@@ -120,23 +131,45 @@ class PostItemWidget extends StatelessWidget {
                           ),
                           Row(
                             children: [
-                              IconButton(
-                                onPressed: () {
+                              LikeButton(
+                                onTap: (isLiked) async {
                                   context
                                       .read<HomeBloc>()
-                                      .add(HomeLikePostEvent(post.id));
+                                      .add(HomeLikePostEvent(widget.post.id));
+                                  return !isLiked;
                                 },
-                                icon: SvgPicture.asset(
-                                  state.isLikedMap[post.id] ?? false
-                                      ? 'assets/icons/heart_filled.svg'
-                                      : 'assets/icons/heart.svg',
-                                ),
+                                key: likeKey,
+                                size: 30,
+                                likeCountAnimationType:
+                                    LikeCountAnimationType.all,
+                                bubblesColor: const BubblesColor(
+                                    dotPrimaryColor: AppColorDark.primary,
+                                    dotSecondaryColor: AppColorDark.secondary),
+                                circleColor: const CircleColor(
+                                    start: AppColorDark.primary,
+                                    end: AppColorDark.secondary),
+                                circleSize: 35,
+                                isLiked: state.isLikedMap[widget.post.id],
+                                likeBuilder: (isLiked) {
+                                  if (state.isLikedMap[widget.post.id] ??
+                                      false) {
+                                    return SvgPicture.asset(
+                                        'assets/icons/heart_filled.svg');
+                                  }
+                                  return SvgPicture.asset(
+                                      'assets/icons/heart.svg');
+                                },
+                                animationDuration:
+                                    const Duration(milliseconds: 1000),
+                                likeCount: state.postsLikes[widget.post.id],
+                                countBuilder: (likeCount, isLiked, text) {
+                                  return Text(
+                                    '${state.postsLikes[widget.post.id]}',
+                                    style: TextStyle(
+                                        color: Colors.white.withOpacity(0.8)),
+                                  );
+                                },
                               ),
-                              Text(
-                                '${state.postsLikes[post.id]}',
-                                style: TextStyle(
-                                    color: Colors.white.withOpacity(0.8)),
-                              )
                             ],
                           ),
                           const Spacer(),

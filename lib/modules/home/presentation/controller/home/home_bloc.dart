@@ -224,7 +224,6 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
         postsLikes: postsLikes,
       ));
     }, (_) {
-      add(const HomeGetPostsEvent());
       emit(state.copyWith(
         likeState: RequestState.success,
       ));

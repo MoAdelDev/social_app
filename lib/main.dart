@@ -34,8 +34,6 @@ class MyApp extends StatelessWidget {
   static bool isDark = false;
   static bool isArabic = false;
   static user_entity.User? user;
-  static Map<String, user_entity.User> postsUsers = {};
-
   const MyApp({super.key});
 
   // This widget is the root of your application.
