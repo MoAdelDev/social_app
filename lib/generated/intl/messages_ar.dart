@@ -53,6 +53,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyTitle": MessageLookupByLibrary.simpleMessage("تعديل"),
         "nameInputError": MessageLookupByLibrary.simpleMessage("أدخل الإسم"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("الإسم"),
+        "noCommentsMsg":
+            MessageLookupByLibrary.simpleMessage("لا يوجد تعليقات بعد"),
         "passwordInputError":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),

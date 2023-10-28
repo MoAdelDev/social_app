@@ -95,6 +95,18 @@ class HomeRepository extends BaseHomeRepository {
   }
 
   @override
+  Future<Either<Failure, Map<String, int>>> getPostsComments(
+      {required List<Post> posts}) async {
+    try {
+      final result =
+          await basePostRemoteDataSource.getPostsComments(posts: posts);
+      return Right(result);
+    } on ServerException catch (e) {
+      return Left(ServerFailure(e.errorMessageModel.message));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> deletePost({required String postId}) async {
     try {
       final result = await basePostRemoteDataSource.deletePost(postId: postId);

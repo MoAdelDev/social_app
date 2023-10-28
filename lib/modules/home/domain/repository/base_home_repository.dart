@@ -24,6 +24,10 @@ abstract class BaseHomeRepository {
     required List<Post> posts,
   });
 
+  Future<Either<Failure, Map<String, int>>> getPostsComments({
+    required List<Post> posts,
+  });
+
   Future<Either<Failure, void>> likePost(
       {required String postId, required String uid, required bool isLiked});
 

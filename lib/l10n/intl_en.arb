@@ -29,5 +29,6 @@
   "cameraTitle"  : "Camera",
   "galleryTitle"  : "Gallery",
   "imageSourceTitle"  : "Image source",
-  "imageSourceMsg" : "Please choose image source"
+  "imageSourceMsg" : "Please choose image source",
+  "noCommentsMsg" : "No Comments Yet"
 }

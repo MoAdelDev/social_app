@@ -25,6 +25,8 @@ abstract class BaseHomeRemoteDataSource {
 
   Future<Map<String, int>> getPostsLikes({required List<Post> posts});
 
+  Future<Map<String, int>> getPostsComments({required List<Post> posts});
+
   Future<void> likePost(
       {required String postId, required String uid, required bool isLiked});
 
@@ -142,7 +144,6 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
           .catchError((error) {
         throw ServerException(ErrorMessageModel(error.toString()));
       });
-
       if (result.data() != null && result.data()?['like']) {
         isLikedMap.addAll({post.id: true});
       } else {
@@ -168,6 +169,23 @@ class HomeRemoteDataSource extends BaseHomeRemoteDataSource {
       likesMap.addAll({post.id: result.docs.length});
     }
     return likesMap;
+  }
+
+  @override
+  Future<Map<String, int>> getPostsComments({required List<Post> posts}) async {
+    Map<String, int> postsComments = {};
+    for (Post post in posts) {
+      final result = await FirebaseFirestore.instance
+          .collection('posts')
+          .doc(post.id)
+          .collection('comments')
+          .get()
+          .catchError((error) {
+        throw ServerException(ErrorMessageModel(error.toString()));
+      });
+      postsComments.addAll({post.id: result.docs.length});
+    }
+    return postsComments;
   }
 
   @override

@@ -17,6 +17,7 @@ import 'package:social_app/main.dart';
 import 'package:social_app/modules/home/data/models/post_model.dart';
 import 'package:social_app/modules/home/domain/usecases/delete_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_posts_comments_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_saved_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_user_usecase.dart';
@@ -48,6 +49,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
   final SavePostUseCase savePostUseCase;
   final GetSavedPostsUseCase getSavedPostsUseCase;
   final GetUserUseCase getUserUseCase;
+  final GetPostsCommentsUseCase getPostsCommentsUseCase;
 
   HomeBloc(
     this.getPostsUseCase,
@@ -60,6 +62,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     this.savePostUseCase,
     this.getSavedPostsUseCase,
     this.getUserUseCase,
+    this.getPostsCommentsUseCase,
   ) : super(const HomeState()) {
     on<HomeChangeBottomNavIndexEvent>(_changeBottomNavIndex);
     on<HomeGetUserEvent>(_getUser);
@@ -72,6 +75,7 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
     on<HomeGetIsLikedPostEvent>(_getIsLikedPost);
     on<HomeGetPostsLikesEvent>(_getPostsLikes);
     on<HomeGetSavedPostsEvent>(_getSavedPosts);
+    on<HomeGetPostsCommentsEvent>(_getPostsComments);
     on<HomeDeletePostEvent>(_deletePost);
     on<HomeSavePostEvent>(_savePost);
   }
@@ -200,13 +204,34 @@ class HomeBloc extends Bloc<BaseHomeEvent, HomeState> {
       emit(state.copyWith(
           postsError: failure.message, postsState: RequestState.error));
     }, (savedPosts) {
+      add(HomeGetPostsCommentsEvent(
+        event.posts,
+        event.postsUsers,
+        event.isLikedMap,
+        event.postLikes,
+        savedPosts,
+      ));
+    });
+  }
+
+  FutureOr<void> _getPostsComments(
+      HomeGetPostsCommentsEvent event, Emitter<HomeState> emit) async {
+    final result = await getPostsCommentsUseCase(
+      posts: event.posts,
+    );
+    result.fold((failure) {
+      AppToast.showToast(msg: failure.message, state: RequestState.error);
+      emit(state.copyWith(
+          postsError: failure.message, postsState: RequestState.error));
+    }, (postsComments) {
       emit(state.copyWith(
         postsUsers: event.postsUsers,
         posts: event.posts,
         isLikedMap: event.isLikedMap,
         postsState: RequestState.success,
         postsLikes: event.postLikes,
-        savedPosts: savedPosts,
+        savedPosts: event.postsSaved,
+        postsComments: postsComments,
         isLoading: false,
       ));
     });

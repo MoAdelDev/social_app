@@ -16,8 +16,19 @@ class CommentsAddEvent extends BaseCommentsEvent {
 
 class CommentsGetEvent extends BaseCommentsEvent {
   final String postId;
-
   const CommentsGetEvent(
+    this.postId,
+  );
+}
+
+class CommentsAddSuccessEvent extends BaseCommentsEvent {
+  const CommentsAddSuccessEvent();
+}
+
+class CommentsReloadEvent extends BaseCommentsEvent {
+  final String postId;
+
+  const CommentsReloadEvent(
     this.postId,
   );
 }

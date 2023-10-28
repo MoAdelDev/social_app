@@ -45,6 +45,8 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
     on<CommentsGetIsLikedMapEvent>(_getIsLikedMap);
     on<CommentsGetCommentsLikesEvent>(_getCommentLikes);
     on<CommentsLikeCommentEvent>(_likeComment);
+    on<CommentsReloadEvent>(_reloadComments);
+    on<CommentsAddSuccessEvent>((event, emit) => emit(state.copyWith(addCommentState: RequestState.nothing)),);
   }
 
   FutureOr<void> _addComment(
@@ -74,15 +76,18 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
           addCommentError: failure.message));
     }, (comment) {
       AppToast.showToast(msg: addSuccessMsg, state: RequestState.success);
+      add(CommentsGetEvent(event.postId));
       emit(state.copyWith(
-        addCommentState: RequestState.error,
+        addCommentState: RequestState.success,
       ));
+      Future.delayed(const Duration(milliseconds: 3000)).then((value) {
+        add(const CommentsAddSuccessEvent());
+      });
     });
   }
 
   FutureOr<void> _getComments(
       CommentsGetEvent event, Emitter<CommentsState> emit) async {
-    emit(state.copyWith(commentsState: RequestState.loading));
     final result = await getCommentsUseCase(postId: event.postId);
     result.fold((failure) {
       emit(state.copyWith(
@@ -134,6 +139,7 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
         commentsUsers: event.commentsUsers,
         isLikedMap: event.isLikedMap,
         commentsLikesCount: commentsLikes,
+        isCommentsLoading: false,
       ));
     });
   }
@@ -182,5 +188,11 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
         likeState: RequestState.success,
       ));
     });
+  }
+
+  FutureOr<void> _reloadComments(
+      CommentsReloadEvent event, Emitter<CommentsState> emit) async {
+    emit(state.copyWith(isCommentsLoading: true));
+    add(CommentsGetEvent(event.postId));
   }
 }

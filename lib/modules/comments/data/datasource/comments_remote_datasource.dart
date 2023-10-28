@@ -132,6 +132,7 @@ class CommentsRemoteDataSource extends BaseCommentsRemoteDataSource {
           .collection('comments')
           .doc(comment.id)
           .collection('likes')
+          .where('like', isEqualTo: true)
           .get()
           .catchError((error) {
         throw ServerException(ErrorMessageModel(error.toString()));

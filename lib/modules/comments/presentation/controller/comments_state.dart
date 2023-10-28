@@ -14,17 +14,20 @@ class CommentsState extends Equatable {
   final Map<String, bool> isLikedMap;
   final Map<String, int> commentsLikesCount;
 
+  final bool isCommentsLoading;
+
   const CommentsState({
     this.addCommentState = RequestState.nothing,
     this.addCommentError = '',
     this.comments = const [],
-    this.commentsState = RequestState.nothing,
+    this.commentsState = RequestState.loading,
     this.commentsError = '',
     this.commentsUsers = const {},
     this.likeState = RequestState.nothing,
     this.likeError = '',
     this.isLikedMap = const {},
     this.commentsLikesCount = const {},
+    this.isCommentsLoading = false,
   });
 
   CommentsState copyWith({
@@ -38,6 +41,7 @@ class CommentsState extends Equatable {
     String? likeError,
     Map<String, bool>? isLikedMap,
     Map<String, int>? commentsLikesCount,
+    bool? isCommentsLoading,
   }) =>
       CommentsState(
         addCommentState: addCommentState ?? this.addCommentState,
@@ -50,6 +54,7 @@ class CommentsState extends Equatable {
         likeError: likeError ?? this.likeError,
         isLikedMap: isLikedMap ?? this.isLikedMap,
         commentsLikesCount: commentsLikesCount ?? this.commentsLikesCount,
+        isCommentsLoading: isCommentsLoading ?? this.isCommentsLoading,
       );
 
   @override
@@ -64,5 +69,6 @@ class CommentsState extends Equatable {
         likeError,
         isLikedMap,
         commentsLikesCount,
+        isCommentsLoading,
       ];
 }

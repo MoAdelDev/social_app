@@ -19,6 +19,7 @@ import 'package:social_app/modules/home/data/repository/home_repository.dart';
 import 'package:social_app/modules/home/domain/repository/base_home_repository.dart';
 import 'package:social_app/modules/home/domain/usecases/delete_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_is_liked_post_usecase.dart';
+import 'package:social_app/modules/home/domain/usecases/get_posts_comments_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_likes_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_posts_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/get_saved_posts_usecase.dart';
@@ -66,6 +67,8 @@ class ServiceLocator {
     sl.registerLazySingleton<SavePostUseCase>(() => SavePostUseCase(sl()));
     sl.registerLazySingleton<GetSavedPostsUseCase>(
         () => GetSavedPostsUseCase(sl()));
+    sl.registerLazySingleton<GetPostsCommentsUseCase>(
+        () => GetPostsCommentsUseCase(sl()));
 
     /// Comments
     sl.registerLazySingleton<BaseCommentsRemoteDataSource>(
@@ -80,10 +83,10 @@ class ServiceLocator {
     sl.registerLazySingleton<GetCommentUsersUseCase>(
         () => GetCommentUsersUseCase(sl()));
     sl.registerLazySingleton<GetIsCommentLikedIsUseCase>(
-            () => GetIsCommentLikedIsUseCase(sl()));
+        () => GetIsCommentLikedIsUseCase(sl()));
     sl.registerLazySingleton<GetCommentsLikesUseCase>(
-            () => GetCommentsLikesUseCase(sl()));
+        () => GetCommentsLikesUseCase(sl()));
     sl.registerLazySingleton<LikeCommentUseCase>(
-            () => LikeCommentUseCase(sl()));
+        () => LikeCommentUseCase(sl()));
   }
 }

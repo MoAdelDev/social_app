@@ -72,6 +72,22 @@ class HomeGetSavedPostsEvent extends BaseHomeEvent {
   );
 }
 
+class HomeGetPostsCommentsEvent extends BaseHomeEvent {
+  final List<Post> posts;
+  final Map<String, user_entity.User> postsUsers;
+  final Map<String, bool> isLikedMap;
+  final Map<String, int> postLikes;
+  final Map<String, bool> postsSaved;
+
+  const HomeGetPostsCommentsEvent(
+    this.posts,
+    this.postsUsers,
+    this.isLikedMap,
+    this.postLikes,
+    this.postsSaved,
+  );
+}
+
 class HomeLoadPostsEvent extends BaseHomeEvent {
   const HomeLoadPostsEvent();
 }

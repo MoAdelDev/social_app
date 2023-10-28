@@ -145,7 +145,7 @@ class _PostItemWidgetState extends State<PostItemWidget> {
                                 width: 5.0,
                               ),
                               Text(
-                                '10',
+                                state.postsComments[widget.post.id].toString(),
                                 style: TextStyle(
                                     color: Colors.white.withOpacity(0.8)),
                               )

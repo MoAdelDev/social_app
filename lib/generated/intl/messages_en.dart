@@ -54,6 +54,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "modifyTitle": MessageLookupByLibrary.simpleMessage("Modify"),
         "nameInputError": MessageLookupByLibrary.simpleMessage("Enter Name"),
         "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
+        "noCommentsMsg":
+            MessageLookupByLibrary.simpleMessage("No Comments Yet"),
         "passwordInputError":
             MessageLookupByLibrary.simpleMessage("Enter Password"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),

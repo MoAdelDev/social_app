@@ -27,6 +27,7 @@ class HomeState extends Equatable {
 
   final Map<String, user_entity.User> postsUsers;
   final Map<String, int> postsLikes;
+  final Map<String, int> postsComments;
 
   final String deletePostError;
   final RequestState deletePostState;
@@ -54,6 +55,7 @@ class HomeState extends Equatable {
     this.likeError = '',
     this.isLikedMap = const {},
     this.postsLikes = const {},
+    this.postsComments = const {},
     this.deletePostState = RequestState.nothing,
     this.deletePostError = '',
     this.savedPosts = const {},
@@ -79,6 +81,7 @@ class HomeState extends Equatable {
     String? likeError,
     Map<String, bool>? isLikedMap,
     Map<String, int>? postsLikes,
+    Map<String, int>? postsComments,
     String? deletePostError,
     RequestState? deletePostState,
     Map<String, bool>? savedPosts,
@@ -103,6 +106,7 @@ class HomeState extends Equatable {
         likeError: likeError ?? this.likeError,
         isLikedMap: isLikedMap ?? this.isLikedMap,
         postsLikes: postsLikes ?? this.postsLikes,
+        postsComments: postsComments ?? this.postsComments,
         deletePostError: deletePostError ?? this.deletePostError,
         deletePostState: deletePostState ?? this.deletePostState,
         savedPosts: savedPosts ?? this.savedPosts,
@@ -111,8 +115,7 @@ class HomeState extends Equatable {
       );
 
   @override
-  List<Object?> get props =>
-      [
+  List<Object?> get props => [
         currentIndex,
         screens,
         imagePicked,
@@ -133,6 +136,7 @@ class HomeState extends Equatable {
         savedPosts,
         postsUsers,
         postsLikes,
+        postsComments,
         deletePostError,
         deletePostState,
       ];

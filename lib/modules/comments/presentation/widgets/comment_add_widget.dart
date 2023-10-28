@@ -83,19 +83,19 @@ class CommentAddWidget extends StatelessWidget {
                 child: TextFormField(
                   controller: _commentController,
                   decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText:
-                          '${S.of(context).addCommentHintText}${user.name}',
-                      hintStyle: const TextStyle(
-                        fontSize: 12.0,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      enabled: true),
+                    border: InputBorder.none,
+                    hintText: '${S.of(context).addCommentHintText}${user.name}',
+                    hintStyle: const TextStyle(
+                      fontSize: 12.0,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    enabled: true,
+                  ),
                   style: TextStyle(
                     color: Theme.of(context).colorScheme.onBackground,
                     fontSize: 14.0,
                   ),
-                  autofocus: true,
+                  autofocus: state.commentsState != RequestState.nothing,
                   cursorHeight: 15,
                   textAlign: TextAlign.start,
                   textInputAction: TextInputAction.newline,
