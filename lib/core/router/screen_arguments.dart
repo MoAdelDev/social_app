@@ -10,4 +10,5 @@ class ScreenArguments{
   ScreenArguments.toPublishScreen({required this.imageFile});
 
   ScreenArguments.toModifyPostScreen({required this.post});
+
 }

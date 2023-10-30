@@ -55,6 +55,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "nameLabel": MessageLookupByLibrary.simpleMessage("الإسم"),
         "noCommentsMsg":
             MessageLookupByLibrary.simpleMessage("لا يوجد تعليقات بعد"),
+        "noLikesTitle": MessageLookupByLibrary.simpleMessage("لا يوجد معجبون"),
         "passwordInputError":
             MessageLookupByLibrary.simpleMessage("أدخل كلمة المرور"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("كلمة المرور"),
@@ -66,6 +67,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "register": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "registerQuestion":
             MessageLookupByLibrary.simpleMessage("أليس لديك حساب ؟"),
+        "showCommentsTitle":
+            MessageLookupByLibrary.simpleMessage("عرض التعليقات"),
+        "showLikesTitle": MessageLookupByLibrary.simpleMessage("عرض الإعجابات"),
         "signUp": MessageLookupByLibrary.simpleMessage("تسجيل"),
         "writeCaptionTitle":
             MessageLookupByLibrary.simpleMessage("أكتب شيئاً ...")

@@ -30,5 +30,9 @@
   "galleryTitle": "المعرض",
   "imageSourceTitle"  : "مصدر الصوره",
   "imageSourceMsg" : "من فضلك أختار مصدر الصوره",
-  "noCommentsMsg" : "لا يوجد تعليقات بعد"
+  "noCommentsMsg" : "لا يوجد تعليقات بعد",
+  "showLikesTitle" : "عرض الإعجابات",
+  "showCommentsTitle" : "عرض التعليقات",
+  "noLikesTitle" : "لا يوجد معجبون"
+
 }

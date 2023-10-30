@@ -369,6 +369,36 @@ class S {
       args: [],
     );
   }
+
+  /// `Show Likes`
+  String get showLikesTitle {
+    return Intl.message(
+      'Show Likes',
+      name: 'showLikesTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Show Comments`
+  String get showCommentsTitle {
+    return Intl.message(
+      'Show Comments',
+      name: 'showCommentsTitle',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `No Likes Yet`
+  String get noLikesTitle {
+    return Intl.message(
+      'No Likes Yet',
+      name: 'noLikesTitle',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

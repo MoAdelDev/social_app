@@ -56,6 +56,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "nameLabel": MessageLookupByLibrary.simpleMessage("Name"),
         "noCommentsMsg":
             MessageLookupByLibrary.simpleMessage("No Comments Yet"),
+        "noLikesTitle": MessageLookupByLibrary.simpleMessage("No Likes Yet"),
         "passwordInputError":
             MessageLookupByLibrary.simpleMessage("Enter Password"),
         "passwordLabel": MessageLookupByLibrary.simpleMessage("Password"),
@@ -66,6 +67,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "register": MessageLookupByLibrary.simpleMessage("Register"),
         "registerQuestion": MessageLookupByLibrary.simpleMessage(
             "Aren\'t you have an account?"),
+        "showCommentsTitle":
+            MessageLookupByLibrary.simpleMessage("Show Comments"),
+        "showLikesTitle": MessageLookupByLibrary.simpleMessage("Show Likes"),
         "signUp": MessageLookupByLibrary.simpleMessage("Sign up"),
         "writeCaptionTitle":
             MessageLookupByLibrary.simpleMessage("Write a caption ...")

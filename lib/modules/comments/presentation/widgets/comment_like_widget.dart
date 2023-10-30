@@ -42,9 +42,11 @@ class CommentLikeWidget extends StatelessWidget {
                 if (isLiked) {
                   return SvgPicture.asset('assets/icons/heart_filled.svg');
                 }
-                return SvgPicture.asset(MyApp.isDark
-                    ? 'assets/icons/heart.svg'
-                    : 'assets/icons/light/heart.svg');
+                return SvgPicture.asset(
+                  MyApp.isDark
+                      ? 'assets/icons/heart.svg'
+                      : 'assets/icons/dark/heart.svg',
+                );
               },
               animationDuration: const Duration(milliseconds: 1000),
             ),

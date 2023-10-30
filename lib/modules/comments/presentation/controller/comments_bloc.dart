@@ -46,7 +46,10 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
     on<CommentsGetCommentsLikesEvent>(_getCommentLikes);
     on<CommentsLikeCommentEvent>(_likeComment);
     on<CommentsReloadEvent>(_reloadComments);
-    on<CommentsAddSuccessEvent>((event, emit) => emit(state.copyWith(addCommentState: RequestState.nothing)),);
+    on<CommentsAddSuccessEvent>(
+      (event, emit) =>
+          emit(state.copyWith(addCommentState: RequestState.nothing)),
+    );
   }
 
   FutureOr<void> _addComment(
@@ -76,12 +79,16 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
           addCommentError: failure.message));
     }, (comment) {
       AppToast.showToast(msg: addSuccessMsg, state: RequestState.success);
-      add(CommentsGetEvent(event.postId));
+      if(!isClosed) {
+        add(CommentsGetEvent(event.postId));
+      }
       emit(state.copyWith(
         addCommentState: RequestState.success,
       ));
       Future.delayed(const Duration(milliseconds: 3000)).then((value) {
-        add(const CommentsAddSuccessEvent());
+        if(!isClosed) {
+          add(const CommentsAddSuccessEvent());
+        }
       });
     });
   }
@@ -93,7 +100,9 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
       emit(state.copyWith(
           commentsError: failure.message, commentsState: RequestState.error));
     }, (comments) {
-      add(CommentsGetCommentsUsersEvent(event.postId, comments));
+      if(!isClosed) {
+        add(CommentsGetCommentsUsersEvent(event.postId, comments));
+      }
     });
   }
 
@@ -104,7 +113,9 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
       emit(state.copyWith(
           commentsError: failure.message, commentsState: RequestState.error));
     }, (commentsUsers) {
-      add(CommentsGetIsLikedMapEvent(event.comments, commentsUsers));
+      if(!isClosed) {
+        add(CommentsGetIsLikedMapEvent(event.comments, commentsUsers));
+      }
     });
   }
 
@@ -118,8 +129,10 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
       emit(state.copyWith(
           commentsError: failure.message, commentsState: RequestState.error));
     }, (isLikedMap) {
-      add(CommentsGetCommentsLikesEvent(
-          event.comments, event.commentsUsers, isLikedMap));
+      if (!isClosed) {
+        add(CommentsGetCommentsLikesEvent(
+            event.comments, event.commentsUsers, isLikedMap));
+      }
     });
   }
 
@@ -193,6 +206,8 @@ class CommentsBloc extends Bloc<BaseCommentsEvent, CommentsState> {
   FutureOr<void> _reloadComments(
       CommentsReloadEvent event, Emitter<CommentsState> emit) async {
     emit(state.copyWith(isCommentsLoading: true));
-    add(CommentsGetEvent(event.postId));
+    if (!isClosed) {
+      add(CommentsGetEvent(event.postId));
+    }
   }
 }

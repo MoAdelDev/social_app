@@ -1,5 +1,4 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:social_app/main.dart';
@@ -83,7 +82,9 @@ class PostUserWidget extends StatelessWidget {
               Row(
                 children: [
                   SvgPicture.asset(
-                    MyApp.isDark ? 'assets/icons/light/world.svg' :'assets/icons/dark/world.svg',
+                    MyApp.isDark
+                        ? 'assets/icons/light/world.svg'
+                        : 'assets/icons/dark/world.svg',
                     width: 23.0,
                     height: 23.0,
                   ),
@@ -95,7 +96,9 @@ class PostUserWidget extends StatelessWidget {
                       post.date,
                       style: Theme.of(context).textTheme.bodySmall?.copyWith(
                           fontFamily: AppFonts.regular,
-                          color: MyApp.isDark ? Colors.grey[300]:Colors.grey[700]),
+                          color: MyApp.isDark
+                              ? Colors.grey[300]
+                              : Colors.grey[700]),
                     ),
                   ),
                 ],
@@ -103,8 +106,10 @@ class PostUserWidget extends StatelessWidget {
             ],
           ),
         ),
-        if (user.uid == FirebaseAuth.instance.currentUser?.uid)
-          PostMoreWidget(post: post),
+        PostMoreWidget(
+          post: post,
+          user: user,
+        ),
       ],
     );
   }

@@ -30,5 +30,8 @@
   "galleryTitle"  : "Gallery",
   "imageSourceTitle"  : "Image source",
   "imageSourceMsg" : "Please choose image source",
-  "noCommentsMsg" : "No Comments Yet"
+  "noCommentsMsg" : "No Comments Yet",
+  "showLikesTitle" : "Show Likes",
+  "showCommentsTitle" : "Show Comments",
+  "noLikesTitle" : "No Likes Yet"
 }

@@ -28,6 +28,10 @@ import 'package:social_app/modules/home/domain/usecases/like_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/modify_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/publish_post_usecase.dart';
 import 'package:social_app/modules/home/domain/usecases/save_post_usecase.dart';
+import 'package:social_app/modules/likes/data/datasource/likes_remote_datasource.dart';
+import 'package:social_app/modules/likes/data/repository/likes_repository.dart';
+import 'package:social_app/modules/likes/domain/repository/base_likes_repository.dart';
+import 'package:social_app/modules/likes/domain/usecases/get_likes_usecase.dart';
 
 import '../../modules/home/domain/usecases/get_posts_users_usecase.dart';
 
@@ -88,5 +92,13 @@ class ServiceLocator {
         () => GetCommentsLikesUseCase(sl()));
     sl.registerLazySingleton<LikeCommentUseCase>(
         () => LikeCommentUseCase(sl()));
+
+    /// Likes
+    sl.registerLazySingleton<BaseLikesRemoteDataSource>(
+        () => LikesRemoteDataSource());
+
+    sl.registerLazySingleton<BaseLikesRepository>(() => LikesRepository(sl()));
+
+    sl.registerLazySingleton<GetLikesUseCase>(() => GetLikesUseCase(sl()));
   }
 }
